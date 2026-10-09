@@ -13,6 +13,9 @@ export default defineConfig({
     env: {
       ASSETS: bindings.assets(),
       IMAGES: bindings.images(),
+      SPOTIFY_CLIENT_ID: bindings.secret(),
+      SPOTIFY_CLIENT_SECRET: bindings.secret(),
+      SPOTIFY_REFRESH_TOKEN: bindings.secret(),
     },
   }),
 })
