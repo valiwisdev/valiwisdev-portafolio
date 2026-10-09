@@ -75,7 +75,7 @@ export default function Navbar() {
 
         {(isMenuOpen || isAnimating) && (
           <div
-            className={`md:hidden fixed top-0 left-0 w-full h-full z-[9999] bg-gray-900 transition-opacity duration-300 ${
+            className={`md:hidden fixed top-0 left-0 w-full h-full z-[9999] bg-gradient-to-r from-[rgb(15,15,64)] to-[rgb(38,11,112)] transition-opacity duration-300 ${
               isAnimating ? 'opacity-100' : 'opacity-0'
             }`}
             style={{

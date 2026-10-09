@@ -3,13 +3,13 @@ import { Mail } from 'lucide-react'
 
 export default function ContactSection() {
   return (
-    <section id="contact" className="min-h-svh flex items-center justify-center py-20 px-6">
-      <div className="max-w-7xl mx-auto w-full relative px-6 pt-2">
+    <section id="contact" className="min-h-svh flex items-center justify-center py-20 px-4 md:px-6">
+      <div className="max-w-7xl mx-auto w-full relative pt-2">
         <div className="grid grid-cols-2 gap-8">
           <div className="col-span-2 md:col-span-1 text-center md:text-center lg:text-left">
-            <h2 className="text-6xl md:text-8xl font-bold mb-8 leading-none">
-              <div className="text-white/80 lg:-ml-1">Get in</div>
-              <div className="text-amber-400 drop-shadow-[0_0_40px_rgba(251,191,36,0.9)] lg:ml-8 lg:-mt-2">
+            <h2 className="text-4xl md:text-6xl font-bold mb-8 leading-none">
+              <div className="text-white/80">Get in</div>
+              <div className="text-amber-400 drop-shadow-[0_0_20px_rgba(251,191,36,0.6)]">
                 Touch
               </div>
             </h2>

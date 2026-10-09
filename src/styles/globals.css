@@ -87,6 +87,15 @@ section {
   }
 }
 
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 :root {
   --radius: 0.625rem;
   --background: linear-gradient(90deg, rgba(15, 15, 64, 1) 10%, rgba(38, 11, 112, 1) 100%);

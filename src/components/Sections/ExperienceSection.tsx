@@ -5,7 +5,7 @@ import { useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { ExperienceCard } from '../ui/ExperienceCard'
 import { CircularGoldenButton } from '../ui/GoldenButtons'
-import experiences from '@/constants/experience.json'
+import { experiences } from '@/components/ui/Experience/experience-data'
 
 export { ExperienceSection }
 export default ExperienceSection
@@ -29,8 +29,8 @@ function ExperienceSection() {
       <div className="max-w-6xl mx-auto h-full w-full flex flex-col">
         <div className="text-center flex-shrink-0 mb-8 md:mb-14">
           <h2 className="flex flex-col items-center justify-center gap-1 md:gap-2 leading-none text-center">
-            <span className="text-3xl sm:text-4xl md:text-5xl font-bold text-white">My</span>
-            <span className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black tracking-tight text-amber-400 drop-shadow-[0_0_20px_rgba(251,191,36,0.8)] whitespace-nowrap">
+            <span className="text-4xl md:text-6xl font-bold text-white">My</span>
+            <span className="text-4xl md:text-6xl font-bold text-amber-400 drop-shadow-[0_0_20px_rgba(251,191,36,0.6)]">
               Experience
             </span>
           </h2>
@@ -44,9 +44,14 @@ function ExperienceSection() {
                   transform: `translateX(-${currentIndex * 100}%)`,
                 }}
               >
-                {experiences.map((experience) => (
+                {experiences.map((experience, index) => (
                   <div key={experience.title} className="w-full flex-shrink-0 px-2 md:px-0">
-                    <ExperienceCard experience={experience} />
+                    <ExperienceCard
+                      key={`${experience.title}-${currentIndex === index ? 'active' : 'inactive'}`}
+                      experience={experience}
+                      viewingIndex={currentIndex}
+                      myIndex={index}
+                    />
                   </div>
                 ))}
               </div>
