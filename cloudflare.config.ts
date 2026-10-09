@@ -8,6 +8,8 @@ export default defineConfig({
     compatibilityFlags: ['nodejs_compat'],
     assets: { notFoundHandling: 'none' },
     domains: ['valiwis.dev'],
+    workersDev: true,
+    previewUrls: true,
     env: {
       ASSETS: bindings.assets(),
       IMAGES: bindings.images(),
