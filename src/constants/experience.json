@@ -1,0 +1,41 @@
+[
+  {
+    "title": "Undergraduate Teaching Assistant - Software Architecture & Design",
+    "company": "Universidad de los Andes",
+    "period": "September 2023 - December 2024",
+    "location": "Colombia, Bogotá",
+    "description": "Assessed lab assignments and semester-long projects for 30+ students, delivering detailed architectural feedback and guiding them in weekly labs to apply design patterns and SOLID principles to their software.",
+    "technologies": ["Django", "Google Cloud", "Microservices", "Software Architecture"],
+    "achievements": [
+      "Assessed lab assignments and semester-long projects for 30+ students",
+      "Facilitated Q&A sessions (Zoom and Slack) to troubleshoot Google Cloud deployments",
+      "Guided students in applying design patterns and SOLID principles"
+    ]
+  },
+  {
+    "title": "Stanford CS Bridge Leader",
+    "company": "Universidad de los Andes",
+    "period": "Jun 2023 - July 2023 and Jun 2024 - July 2024",
+    "location": "Colombia, Bogotá",
+    "description": "Guided a cohort of 8-10 high-school students from Colombian schools through daily coding exercises and a culminating project, providing individualized, one-on-one assistance whenever needed.",
+    "technologies": ["Python", "Stanford Graphics Library", "Teaching", "Mentoring"],
+    "achievements": [
+      "Guided a cohort of 8-10 high-school students from Colombian schools",
+      "Taught section lessons that unpacked Python basics: variables, loops, functions",
+      "Used Stanford's custom graphics library to make concepts visual and engaging"
+    ]
+  },
+  {
+    "title": "Research Monitor — Module Development for EduEx",
+    "company": "Universidad de los Andes",
+    "period": "Sept 2025 - Present",
+    "location": "Colombia",
+    "description": "Developed an inventory management module for the EduEx platform, supporting its design and implementation to optimize material registration, tracking, and reservation.",
+    "technologies": ["Django", "Docker", "SQL"],
+    "achievements": [
+      "Supported the design and implementation of the EduEx inventory module",
+      "Optimized workflows for registering, tracking, and reserving materials",
+      "Implemented backend functionality with Django, containerized deployments with Docker, and designed SQL schemas"
+    ]
+  }
+]

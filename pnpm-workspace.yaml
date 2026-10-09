@@ -1,0 +1,12 @@
+allowBuilds:
+  sharp: true
+  unrs-resolver: true
+  workerd: true
+
+overrides:
+  '@shuding/opentype.js@1.4.0-beta.0>fflate': 0.7.5
+  '@types/three@0.179.0>fflate': 0.8.3
+  'miniflare@5.20260930.0-alpha>sharp': 0.35.5
+  'miniflare@5.20261006.0-alpha>sharp': 0.35.5
+  'satori@0.33.5>fflate': 0.7.5
+  'three-stdlib@2.36.1>fflate': 0.6.11
