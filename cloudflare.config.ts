@@ -7,6 +7,7 @@ export default defineConfig({
     compatibilityDate: '2026-10-07',
     compatibilityFlags: ['nodejs_compat'],
     assets: { notFoundHandling: 'none' },
+    domains: ['valiwis.dev'],
     env: {
       ASSETS: bindings.assets(),
       IMAGES: bindings.images(),
