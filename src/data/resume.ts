@@ -119,7 +119,7 @@ export const resume = {
     {
       name: 'DevOps',
       summary:
-        'I enjoy learning how software moves from planning and building through testing and release to deployment and monitoring. I took an elective in automated software testing and like exploring recognition testing, end-to-end testing, and visual regression testing. I’ve been learning to support deployment and monitoring with Google Cloud, Terraform, and GitHub Actions workflows.',
+        'I enjoy learning how software moves from planning and building through testing and release to deployment and monitoring. In an elective on automated software testing, I learned about recognition, end-to-end, and visual regression testing. I’ve also been learning to support deployment and monitoring with Google Cloud, Terraform, and GitHub Actions workflows.',
     },
     {
       name: 'Artificial intelligence',

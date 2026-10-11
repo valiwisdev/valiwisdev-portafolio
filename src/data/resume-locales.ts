@@ -91,7 +91,7 @@ export function getLocalizedResume(locale: ResumeLocale) {
       {
         name: 'DevOps',
         summary:
-          'Me interesa entender cómo el software pasa de la planificación y el desarrollo a las pruebas y el lanzamiento, y luego al despliegue y el monitoreo. Cursé una electiva de pruebas automatizadas de software y me gusta explorar pruebas de reconocimiento, de extremo a extremo y de regresión visual. He estado aprendiendo a apoyar el despliegue y el monitoreo con Google Cloud, Terraform y los flujos de trabajo de GitHub Actions.',
+          'Me interesa entender cómo el software pasa de la planificación y el desarrollo a las pruebas y el lanzamiento, y luego al despliegue y el monitoreo. En una electiva de pruebas automatizadas de software aprendí sobre pruebas de reconocimiento, de extremo a extremo y de regresión visual. También he estado aprendiendo a apoyar el despliegue y el monitoreo con Google Cloud, Terraform y los flujos de trabajo de GitHub Actions.',
       },
       {
         name: 'Inteligencia artificial',
