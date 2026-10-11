@@ -1,5 +1,4 @@
 import { z } from 'zod'
-import { TracksSchema } from './track.schema'
 
 export const SongSchema = z.object({
   id: z.number(),
@@ -9,7 +8,7 @@ export const SongSchema = z.object({
   duration: z.string(),
 })
 
-export const PlaylistSchema = z.object({
+const PlaylistDetailsSchema = z.object({
   id: z.string(),
   external_urls: z.object({
     spotify: z.url(),
@@ -20,6 +19,9 @@ export const PlaylistSchema = z.object({
       url: z.url(),
     }),
   ),
+})
+
+export const PlaylistSchema = PlaylistDetailsSchema.extend({
   tracks: z.object({
     total: z.number().int(),
   }),
@@ -29,20 +31,21 @@ export const PlaylistOwnerSchema = z.object({
   display_name: z.string(),
 })
 
+const SpotifyPlaylistTotalSchema = z.object({
+  total: z.number().int(),
+})
+
 export const PlaylistsSchema = z.array(PlaylistSchema)
 export const SpotifyPlaylistsResponseSchema = z.object({
   items: z.array(
-    PlaylistSchema.extend({
+    PlaylistDetailsSchema.extend({
+      items: SpotifyPlaylistTotalSchema.optional(),
+      tracks: SpotifyPlaylistTotalSchema.optional(),
       owner: PlaylistOwnerSchema,
     }),
   ),
-})
-export const PlaylistTracksSchema = z.object({
-  playlist: PlaylistSchema,
-  tracks: TracksSchema,
 })
 
 export type TSong = z.infer<typeof SongSchema>
 export type TPlaylist = z.infer<typeof PlaylistSchema>
 export type TPlaylistOwner = z.infer<typeof PlaylistOwnerSchema>
-export type TPlaylistTracks = z.infer<typeof PlaylistTracksSchema>

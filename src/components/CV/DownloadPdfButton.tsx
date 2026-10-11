@@ -6,10 +6,12 @@ export function DownloadPdfButton({ locale }: Readonly<{ locale: ResumeLocale }>
     <a
       href={`/api/cv/pdf?lang=${locale}`}
       download
-      className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border-2 border-black bg-black px-6 py-3 font-mono text-sm font-semibold text-white transition-colors hover:bg-white hover:text-black focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+      aria-label={`Download ${locale === 'es' ? 'Spanish' : 'English'} PDF`}
+      className="inline-flex min-h-11 shrink-0 items-center justify-center gap-1.5 rounded-lg border-2 border-black bg-black px-3 py-2 font-mono text-xs font-semibold text-white transition-colors hover:bg-white hover:text-black focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black sm:gap-2 sm:px-6 sm:py-3 sm:text-sm"
     >
       <Download aria-hidden="true" className="size-4" />
-      Download PDF · {locale.toUpperCase()}
+      <span className="sm:hidden">PDF · {locale.toUpperCase()}</span>
+      <span className="hidden sm:inline">Download PDF · {locale.toUpperCase()}</span>
     </a>
   )
 }

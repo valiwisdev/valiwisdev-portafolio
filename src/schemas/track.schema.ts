@@ -19,10 +19,11 @@ export const SpotifyCurrentlyPlayingSchema = z.object({
   item: TrackSchema,
 })
 
-export const SpotifyPlaylistTracksSchema = z.object({
+export const SpotifyPlaylistItemsSchema = z.object({
   items: z.array(
     z.object({
-      track: TrackSchema,
+      item: z.unknown().optional(),
+      track: z.unknown().optional(),
     }),
   ),
 })

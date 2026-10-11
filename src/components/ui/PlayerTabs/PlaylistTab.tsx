@@ -1,8 +1,9 @@
 import { ExternalLink, ArrowLeft } from 'lucide-react'
-import { TPlaylist, TPlaylistTracks } from '@/schemas/playlist.schema'
 import useSWR from 'swr'
 import { fetcher } from '@/lib/fetcher'
 import { MusicLoader } from '../Loader'
+import type { TPlaylist } from '@/schemas/playlist.schema'
+import type { TTrack } from '@/schemas/track.schema'
 
 function formatDuration(durationMs: number | undefined | null) {
   if (!durationMs || Number.isNaN(durationMs)) return '0:00'
@@ -13,7 +14,16 @@ function formatDuration(durationMs: number | undefined | null) {
 }
 
 function useMyPlaylists() {
-  return useSWR<TPlaylistTracks[] | null>('/api/get-my-playlists', fetcher, {
+  return useSWR<TPlaylist[] | null>('/api/get-my-playlists', fetcher, {
+    refreshInterval: 3600000,
+    revalidateOnFocus: false,
+  })
+}
+
+function usePlaylistTracks(playlistId: string | null) {
+  const key = playlistId ? `/api/playlists/${encodeURIComponent(playlistId)}/tracks` : null
+
+  return useSWR<TTrack[] | null>(key, fetcher, {
     refreshInterval: 3600000,
     revalidateOnFocus: false,
   })
@@ -29,6 +39,12 @@ export function PlaylistTab({
   onBackToPlaylists: () => void
 }>) {
   const { data: playlists, isLoading } = useMyPlaylists()
+  const {
+    data: selectedTracks,
+    isLoading: isLoadingTracks,
+    error: tracksError,
+    mutate: retryTracks,
+  } = usePlaylistTracks(selectedPlaylist?.id ?? null)
 
   if (isLoading) {
     return (
@@ -62,10 +78,24 @@ export function PlaylistTab({
           </div>
         </div>
 
-        <div className="space-y-2 max-h-72 overflow-y-auto custom-scrollbar px-2">
-          {playlists
-            ?.find((pl) => pl.playlist.id === selectedPlaylist.id)
-            ?.tracks.map((track, index) => (
+        {isLoadingTracks ? (
+          <div className="flex items-center justify-center py-12">
+            <MusicLoader text="Loading tracks..." />
+          </div>
+        ) : tracksError ? (
+          <div className="py-8 text-center text-sm text-slate-400" role="status">
+            <p>Could not load tracks.</p>
+            <button
+              type="button"
+              onClick={() => void retryTracks()}
+              className="mt-2 underline underline-offset-2 hover:text-white focus-visible:outline focus-visible:outline-amber-300"
+            >
+              Try again
+            </button>
+          </div>
+        ) : selectedTracks?.length ? (
+          <div className="space-y-2 max-h-72 overflow-y-auto custom-scrollbar px-2">
+            {selectedTracks.map((track, index) => (
               <div
                 key={track.id}
                 className="flex items-center gap-3 p-3 rounded-xl bg-gradient-to-r from-white/5 to-white/2 hover:from-white/10 hover:to-white/5 border border-transparent hover:border-amber-400/20 transition-all duration-300 cursor-pointer group"
@@ -94,7 +124,10 @@ export function PlaylistTab({
                 </div>
               </div>
             ))}
-        </div>
+          </div>
+        ) : (
+          <p className="py-8 text-center text-sm text-slate-400">No tracks available.</p>
+        )}
 
         <div className="mt-4 mb-3">
           <div className="h-px bg-gradient-to-r from-transparent via-amber-400/20 to-transparent"></div>
@@ -120,7 +153,7 @@ export function PlaylistTab({
   return (
     <div className="space-y-3">
       <div className="space-y-3 max-h-80 overflow-y-auto custom-scrollbar px-2">
-        {playlists?.map(({ playlist }) => (
+        {playlists?.map((playlist) => (
           <button
             key={playlist.id}
             onClick={() => onSelectPlaylist(playlist)}

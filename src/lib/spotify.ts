@@ -13,12 +13,20 @@ const TOKEN_ENDPOINT = `https://accounts.spotify.com/api/token`
 
 const SpotifyAccessTokenSchema = z.object({
   access_token: z.string(),
+  expires_in: z.number().positive(),
 })
 
+const PLAYLIST_ITEMS_ENDPOINT = (playlistId: string, limit = 5) =>
+  `https://api.spotify.com/v1/playlists/${encodeURIComponent(playlistId)}/items?limit=${limit}`
 const PLAYLIST_TRACKS_ENDPOINT = (playlistId: string, limit = 5) =>
-  `https://api.spotify.com/v1/playlists/${playlistId}/tracks?limit=${limit}`
+  `https://api.spotify.com/v1/playlists/${encodeURIComponent(playlistId)}/tracks?limit=${limit}`
 
-const getAccessToken = async () => {
+type SpotifyAccessToken = z.infer<typeof SpotifyAccessTokenSchema>
+
+let cachedAccessToken: { token: SpotifyAccessToken; expiresAt: number } | null = null
+let pendingAccessToken: Promise<SpotifyAccessToken> | null = null
+
+const requestAccessToken = async (): Promise<SpotifyAccessToken> => {
   const response = await fetch(TOKEN_ENDPOINT, {
     method: 'POST',
     headers: {
@@ -36,6 +44,25 @@ const getAccessToken = async () => {
   }
 
   return SpotifyAccessTokenSchema.parse(await response.json())
+}
+
+const getAccessToken = async (): Promise<SpotifyAccessToken> => {
+  if (cachedAccessToken && cachedAccessToken.expiresAt > Date.now()) {
+    return cachedAccessToken.token
+  }
+
+  pendingAccessToken ??= requestAccessToken()
+
+  try {
+    const token = await pendingAccessToken
+    cachedAccessToken = {
+      token,
+      expiresAt: Date.now() + Math.max(0, token.expires_in - 60) * 1000,
+    }
+    return token
+  } finally {
+    pendingAccessToken = null
+  }
 }
 
 export const getNowPlaying = async () => {
@@ -68,7 +95,17 @@ export const getCurrentUserPlaylists = async () => {
   })
 }
 
-export const getPlaylistTracks = async (playlistId: string, limit = 5) => {
+export const getPlaylistItems = async (playlistId: string, limit = 5) => {
+  const { access_token } = await getAccessToken()
+
+  return fetch(PLAYLIST_ITEMS_ENDPOINT(playlistId, limit), {
+    headers: {
+      Authorization: `Bearer ${access_token}`,
+    },
+  })
+}
+
+export const getLegacyPlaylistTracks = async (playlistId: string, limit = 5) => {
   const { access_token } = await getAccessToken()
 
   return fetch(PLAYLIST_TRACKS_ENDPOINT(playlistId, limit), {
