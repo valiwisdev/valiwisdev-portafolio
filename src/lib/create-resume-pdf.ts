@@ -194,13 +194,7 @@ export async function createResumePdf(locale: ResumeLocale = 'en') {
   }
 
   y -= 12
-  page.drawLine({
-    start: { x: MARGIN, y },
-    end: { x: PAGE_WIDTH - MARGIN, y },
-    thickness: 0.75,
-    color: BLACK,
-  })
-  y -= 18
+  y -= 10
 
   y = drawSectionTitle(page, labels.summary, y, bold)
   for (const item of resume.education) {

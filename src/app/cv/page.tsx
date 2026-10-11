@@ -59,7 +59,7 @@ export default async function CvPage({
       </ButtonGroup>
 
       <article className="mx-auto max-w-[52rem] bg-white px-5 py-7 font-serif text-[14px] leading-snug text-black sm:px-10 sm:py-9">
-        <header className="border-b border-black pb-4 text-center">
+        <header className="pb-4 text-center">
           <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">{basics.name}</h1>
           <p className="mt-1 text-sm">{basics.label}</p>
           <div className="mt-3 flex flex-wrap justify-center gap-x-3 gap-y-1 text-xs">
@@ -83,7 +83,7 @@ export default async function CvPage({
           </div>
         </header>
 
-        <div className="mt-5 space-y-5">
+        <div className="mt-3 space-y-5">
           <section aria-labelledby="summary-heading">
             <SectionTitle id="summary-heading">{labels.summary}</SectionTitle>
             {education.map((item) => (
