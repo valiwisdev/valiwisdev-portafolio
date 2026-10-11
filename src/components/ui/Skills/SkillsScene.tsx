@@ -6,7 +6,7 @@ import type { ThreeElements } from '@react-three/fiber'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import * as THREE from 'three'
 
-import { skillCategories } from './skills-data'
+import { skillCategories } from '@/data/skills'
 import type { Skill, SkillCategory } from '@/schemas/skill.schema'
 
 interface SkillsSceneProps {

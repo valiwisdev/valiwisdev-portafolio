@@ -1,11 +1,10 @@
+import Link from 'next/link'
+import { introductionWords } from '@/constants/words'
+import { SocialMediaIconsProvider } from '@/context/SocialMediaIconsContext'
 import { TypewriterEffectSmooth } from '../ui/TypewritterEffect'
 import ProfileAvatar from '../ui/ProfileAvatar'
 import ScrollButton from '../ui/ScrollButton'
 import HomeControls from '../ui/HomeControls'
-import Link from 'next/link'
-import { introductionWords } from '@/constants/words'
-import { SocialMediaIconsProvider } from '@/context/SocialMediaIconsContext'
-import { RoundedGoldenButton } from '../ui/GoldenButtons'
 
 export default function HomeSection() {
   return (
@@ -38,15 +37,12 @@ export default function HomeSection() {
             </div>
 
             <div className="mt-4 md:mt-12">
-              <RoundedGoldenButton ariaLabel="Download CV" title="Download CV">
-                <Link
-                  href="https://rxresu.me/valiwisdev/cv-valeria"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Download CV
-                </Link>
-              </RoundedGoldenButton>
+              <Link
+                href="/cv"
+                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border-2 border-amber-400 bg-transparent px-6 py-3 font-mono text-sm font-semibold text-amber-400 shadow-lg shadow-amber-400/10 transition-all hover:border-amber-300 hover:text-amber-300 hover:shadow-xl hover:shadow-amber-400/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-300"
+              >
+                Download CV
+              </Link>
             </div>
           </div>
 

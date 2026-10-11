@@ -1,5 +1,7 @@
 import { SkillCategoriesSchema } from '@/schemas/skill.schema'
 
+export const programmingLanguages = ['JavaScript', 'TypeScript', 'Dart', 'Python']
+
 export const skillCategories = SkillCategoriesSchema.parse([
   {
     name: 'Frontend',
@@ -14,6 +16,7 @@ export const skillCategories = SkillCategoriesSchema.parse([
       { name: 'Next.js', color: '#ffffff' },
       { name: 'Svelte', color: '#ff3e00' },
       { name: 'Flutter', color: '#02569b', languages: ['Dart'] },
+      { name: 'Angular', color: '#dd0031', languages: ['TypeScript'] },
     ],
   },
   {
@@ -22,12 +25,13 @@ export const skillCategories = SkillCategoriesSchema.parse([
     color: '#fbbf24',
     description: 'Designing scalable server-side applications and RESTful APIs.',
     skills: [
-      { name: 'Node.js', color: '#5fa04e', languages: ['JavaScript'] },
-      { name: 'REST APIs', color: '#fbbf24', languages: ['Python'] },
+      { name: 'FastAPI', color: '#009688' },
+      { name: 'NestJS', color: '#e0234e', languages: ['TypeScript'] },
+      { name: 'Django', color: '#092e20' },
     ],
   },
   {
-    name: 'Databases',
+    name: 'Data',
     icon: '🌌',
     color: '#a78bfa',
     description: 'Managing and querying data with relational and document-based databases.',
@@ -35,6 +39,13 @@ export const skillCategories = SkillCategoriesSchema.parse([
       { name: 'PostgreSQL', color: '#4169e1' },
       { name: 'MongoDB', color: '#47a248' },
     ],
+  },
+  {
+    name: 'Cloud',
+    icon: '☁️',
+    color: '#60a5fa',
+    description: 'Deploying and managing applications with cloud platforms.',
+    skills: [{ name: 'Google Cloud', color: '#4285f4' }],
   },
   {
     name: 'Tools',
@@ -46,7 +57,23 @@ export const skillCategories = SkillCategoriesSchema.parse([
       { name: 'Docker', color: '#2496ed' },
     ],
   },
+  {
+    name: 'Operating Systems',
+    icon: '💻',
+    color: '#cbd5e1',
+    description: 'Working across Linux, Windows, and macOS environments.',
+    skills: [
+      { name: 'Linux', color: '#fcc624' },
+      { name: 'Windows', color: '#00a4ef' },
+      { name: 'macOS', color: '#a2aaad' },
+    ],
+  },
 ])
+
+export const resumeSkills = skillCategories.map((category) => ({
+  name: category.name,
+  keywords: category.skills.map((skill) => skill.name),
+}))
 
 export const skillsSummary = {
   categories: skillCategories.length,

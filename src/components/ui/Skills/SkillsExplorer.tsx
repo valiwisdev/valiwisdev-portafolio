@@ -5,7 +5,7 @@ import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { ArrowLeft } from 'lucide-react'
 import { Suspense } from 'react'
 
-import { skillCategories } from './skills-data'
+import { skillCategories } from '@/data/skills'
 import { SkillsScene } from './SkillsScene'
 import type { SkillCategory } from '@/schemas/skill.schema'
 

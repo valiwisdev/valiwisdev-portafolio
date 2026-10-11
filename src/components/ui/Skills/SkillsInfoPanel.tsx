@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion } from 'framer-motion'
 
-import { skillsSummary } from './skills-data'
+import { skillsSummary } from '@/data/skills'
 import type { SkillCategory } from '@/schemas/skill.schema'
 
 interface SkillsInfoPanelProps {

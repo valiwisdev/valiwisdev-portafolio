@@ -34,7 +34,7 @@ export default function SocialMediaIcons() {
       </a>
 
       <a
-        href="https://www.linkedin.com/in/valeria-caro-ramirez/"
+        href="https://www.linkedin.com/in/valiwisdev/"
         className="absolute -top-8 md:-top-12 left-3 md:left-8 bg-black/20 backdrop-blur-sm p-2 md:p-3 rounded-full hover:bg-amber-400/20 transition-all duration-300 group hover:scale-110"
         aria-label="LinkedIn"
       >

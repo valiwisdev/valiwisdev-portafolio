@@ -9,7 +9,7 @@ type SocialMediaIconsContextValue = {
 
 const SocialMediaIconsContext = createContext<SocialMediaIconsContextValue | undefined>(undefined)
 
-export function SocialMediaIconsProvider({ children }: { children: ReactNode }) {
+export function SocialMediaIconsProvider({ children }: Readonly<{ children: ReactNode }>) {
   const [showSocialIcons, setShowSocialIcons] = useState(false)
 
   const value = useMemo(

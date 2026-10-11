@@ -2,8 +2,9 @@
 
 import { useState, useEffect } from 'react'
 import { Menu, X } from 'lucide-react'
+import Link from 'next/link'
 import { NavbarItemsDesktop, NavbarItemsMobile } from './NavbarItems'
-import { handleSmoothScroll, handleToggleMenu } from './NavbarUtils'
+import { handleToggleMenu } from './NavbarUtils'
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -41,7 +42,7 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 print:hidden ${
         isScrolled
           ? 'bg-gradient-to-r from-[rgba(15,15,64,0.8)] to-[rgba(38,11,112,0.8)] backdrop-blur-md shadow-lg'
           : 'bg-transparent'
@@ -49,12 +50,12 @@ export default function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex justify-between items-center py-4">
-          <button
-            onClick={() => handleSmoothScroll({ href: '#home' })}
+          <Link
+            href="/#home"
             className="text-white font-mono  text-lg  md:text-2xl font-bold drop-shadow-[0_0_8px_rgba(255,255,255,0.3)] hover:text-amber-400 transition-colors duration-300 cursor-pointer"
           >
             Valiwis
-          </button>
+          </Link>
 
           <div className="hidden md:block">
             <NavbarItemsDesktop />

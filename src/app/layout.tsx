@@ -1,8 +1,6 @@
 import type { Metadata } from 'next'
 import { JetBrains_Mono, Sora } from 'next/font/google'
 import '@/styles/globals.css'
-import Navbar from '@/components/Navbar/Navbar'
-import Stars from '@/components/ui/Stars'
 
 const sora = Sora({
   subsets: ['latin'],
@@ -29,17 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${sora.variable} ${jetbrainsMono.variable} font-sans antialiased`}>
-        <Navbar />
-
-        <div
-          className="fixed inset-0 -z-20 pointer-events-none"
-          style={{ transform: 'translateY(10vh)' }}
-        >
-          <Stars />
-        </div>
-
         {children}
-
       </body>
     </html>
   )
