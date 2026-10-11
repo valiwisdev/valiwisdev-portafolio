@@ -67,7 +67,7 @@ export function getLocalizedResume(locale: ResumeLocale) {
       ...resume.basics,
       label: 'Desarrolladora Full Stack',
       summary:
-        'Me atraen los proyectos full stack porque me permiten crear herramientas que ayudan a otras personas a resolver problemas reales. Disfruto trabajar tanto en la interfaz como en la lógica que hay detrás.',
+        'Me atraen los proyectos full stack porque me permiten crear herramientas que ayudan a otras personas a resolver problemas reales. Disfruto trabajar tanto en la interfaz como en la lógica que hay detrás, y también me interesa cómo la IA puede hacer que estas herramientas sean más útiles.',
       profiles: resume.basics.profiles.map((profile) =>
         profile.network === 'Portfolio' ? { ...profile, network: 'Portafolio' } : profile,
       ),
@@ -84,19 +84,24 @@ export function getLocalizedResume(locale: ResumeLocale) {
     })),
     interests: [
       {
+        name: 'Automatización',
+        summary:
+          'Me gusta cómo la automatización puede reducir tareas repetitivas y facilitar el trabajo diario. He probado n8n para conectar servicios y crear flujos de trabajo.',
+      },
+      {
         name: 'DevOps',
         summary:
-          'Me gusta aprender cómo la automatización, CI/CD y la infraestructura en la nube ayudan a los equipos a publicar y mantener aplicaciones.',
+          'Me interesa entender cómo el software pasa de la planificación y el desarrollo a las pruebas y el lanzamiento, y luego al despliegue y el monitoreo. Cursé una electiva de pruebas automatizadas de software y me gusta explorar pruebas de reconocimiento, de extremo a extremo y de regresión visual. He estado aprendiendo a apoyar el despliegue y el monitoreo con Google Cloud, Terraform y los flujos de trabajo de GitHub Actions.',
       },
       {
         name: 'Inteligencia artificial',
         summary:
-          'Últimamente he estado aprendiendo sobre IA, especialmente sobre agentes y lo que pueden hacer.',
+          'Me interesa cómo los agentes de IA pueden usar modelos de lenguaje y conocimiento externo para resolver problemas. En la universidad cursé una electiva sobre construcción de aplicaciones basadas en LLMs, donde estudié LLMs, RAG y agentes; por mi cuenta, he experimentado con LangChain, Pydantic AI y el Agent Development Kit (ADK) de Google.',
       },
       {
         name: 'Tecnologías emergentes',
         summary:
-          'También me gusta conocer tecnologías nuevas y probarlas para ver dónde pueden ser útiles.',
+          'En mi tiempo libre, me gusta crear proyectos con tecnologías emergentes para aprender cómo funcionan y en qué podrían ser útiles.',
       },
     ],
   }

@@ -36,9 +36,9 @@ export const resume = {
   basics: {
     name: 'Valeria Caro Ramírez',
     label: 'Full Stack Developer',
-    email: 'valiwisdev@outlook.com',
+    email: 'valeria.caro@outlook.com',
     summary:
-      'I’m drawn to full-stack projects because they let me build tools that help people solve real problems. I enjoy working on both the interface and the logic behind them.',
+      'I’m drawn to full-stack projects because they let me build tools that help people solve real problems. I enjoy working on both the interface and the logic behind them, and I’m also interested in how AI can make these tools more useful.',
     location: { city: 'Bogotá', countryCode: 'CO', region: 'Colombia' },
     profiles: [
       { network: 'GitHub', username: 'valiwisdev', url: 'https://github.com/valiwisdev' },
@@ -112,19 +112,24 @@ export const resume = {
   programmingLanguages,
   interests: [
     {
+      name: 'Automation',
+      summary:
+        'I like how automation can take repetitive tasks off people’s hands and make day-to-day work easier. I’ve tried n8n to connect services and build workflows.',
+    },
+    {
       name: 'DevOps',
       summary:
-        'I like learning how automation, CI/CD, and cloud infrastructure help software teams ship and maintain apps.',
+        'I enjoy learning how software moves from planning and building through testing and release to deployment and monitoring. I took an elective in automated software testing and like exploring recognition testing, end-to-end testing, and visual regression testing. I’ve been learning to support deployment and monitoring with Google Cloud, Terraform, and GitHub Actions workflows.',
     },
     {
       name: 'Artificial intelligence',
       summary:
-        'Lately, I’ve been learning about AI, especially agents, and exploring what they can do.',
+        'I’m curious about how AI agents can use language models and external knowledge to solve problems. At university, I took an elective on building LLM applications, where I studied LLMs, RAG, and agents; outside the course, I’ve experimented with LangChain, Pydantic AI, and Google’s Agent Development Kit (ADK).',
     },
     {
       name: 'Emerging technologies',
       summary:
-        'I enjoy keeping up with new technologies and trying them out to see where they might be useful.',
+        'In my free time, I like building projects with emerging technologies to learn how they work and where they might be useful.',
     },
   ],
   meta: { version: '1.0.0', lastModified: '2026-10-11T00:00:00' },

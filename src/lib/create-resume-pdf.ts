@@ -51,6 +51,49 @@ function drawWrappedText(
   return y - lines.length * lineHeight
 }
 
+function drawLabeledWrappedText(
+  page: PDFPage,
+  label: string,
+  text: string,
+  x: number,
+  y: number,
+  width: number,
+  boldFont: PDFFont,
+  regularFont: PDFFont,
+  size: number,
+  lineHeight: number,
+) {
+  const labelText = `${label}:`
+  const labelWidth = boldFont.widthOfTextAtSize(labelText, size) + 4
+  page.drawText(labelText, { x, y, size, font: boldFont, color: BLACK })
+
+  const lines: string[] = []
+  let line = ''
+  for (const word of text.split(/\s+/)) {
+    const candidate = line ? `${line} ${word}` : word
+    const availableWidth = lines.length === 0 ? width - labelWidth : width
+    if (line && regularFont.widthOfTextAtSize(candidate, size) > availableWidth) {
+      lines.push(line)
+      line = word
+    } else {
+      line = candidate
+    }
+  }
+  if (line) lines.push(line)
+
+  lines.forEach((wrappedLine, index) => {
+    page.drawText(wrappedLine, {
+      x: index === 0 ? x + labelWidth : x,
+      y: y - index * lineHeight,
+      size,
+      font: regularFont,
+      color: BLACK,
+    })
+  })
+
+  return y - lines.length * lineHeight
+}
+
 function drawSectionTitle(page: PDFPage, title: string, y: number, font: PDFFont) {
   page.drawText(title.toUpperCase(), { x: MARGIN, y, size: 10.5, font, color: BLACK })
   const lineY = y - 4
@@ -252,12 +295,14 @@ export async function createResumePdf(locale: ResumeLocale = 'en') {
     y -= 5
     y = drawSectionTitle(page, labels.interests, y, bold)
     for (const interest of resume.interests) {
-      y = drawWrappedText(
+      y = drawLabeledWrappedText(
         page,
-        `${interest.name}: ${interest.summary}`,
+        interest.name,
+        interest.summary,
         MARGIN,
         y,
         CONTENT_WIDTH,
+        bold,
         regular,
         9.25,
         10,

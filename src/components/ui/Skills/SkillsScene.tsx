@@ -198,27 +198,27 @@ function SceneLabel({ label, color, position, height }: Readonly<SceneLabelProps
     const context = canvas.getContext('2d')
     if (!context) return null
 
-    const fontSize = 32
-    const horizontalPadding = 24
-    const colorMarkerSpace = 28
+    const fontSize = 44
+    const horizontalPadding = 28
+    const colorMarkerSpace = 34
     context.font = `600 ${fontSize}px ui-monospace, SFMono-Regular, Menlo, monospace`
     canvas.width = Math.ceil(
       context.measureText(label).width + horizontalPadding * 2 + colorMarkerSpace,
     )
-    canvas.height = 64
+    canvas.height = 84
 
     context.font = `600 ${fontSize}px ui-monospace, SFMono-Regular, Menlo, monospace`
     context.textBaseline = 'middle'
     context.beginPath()
-    context.roundRect(1, 1, canvas.width - 2, canvas.height - 2, 12)
+    context.roundRect(1, 1, canvas.width - 2, canvas.height - 2, 16)
     context.fillStyle = 'rgba(15, 23, 42, 0.92)'
     context.fill()
     context.strokeStyle = 'rgba(71, 85, 105, 0.75)'
-    context.lineWidth = 2
+    context.lineWidth = 2.5
     context.stroke()
 
     context.beginPath()
-    context.arc(horizontalPadding, canvas.height / 2, 6, 0, Math.PI * 2)
+    context.arc(horizontalPadding, canvas.height / 2, 8, 0, Math.PI * 2)
     context.fillStyle = color
     context.fill()
 
@@ -331,7 +331,7 @@ function CategoryPlanet({
         label={category.name}
         color={category.color}
         position={[0, planetSize + 0.55, 0]}
-        height={0.46}
+        height={0.66}
       />
 
       {category.skills.map((skill, skillIndex) => (
@@ -520,7 +520,7 @@ function FocusedMoon({
         <sphereGeometry {...glowGeometryProps} />
         <meshBasicMaterial {...glowMaterialProps} />
       </mesh>
-      <SceneLabel label={label} color={color} position={[0, size + 0.32, 0]} height={0.38} />
+      <SceneLabel label={label} color={color} position={[0, size + 0.32, 0]} height={0.54} />
     </group>
   )
 }
