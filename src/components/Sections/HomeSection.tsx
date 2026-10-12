@@ -20,7 +20,7 @@ export default function HomeSection() {
             </div>
             <div className="mt-3 md:mt-5 lg:mt-10">
               <p className="px-3 text-sm font-light leading-relaxed text-white select-none sm:text-base md:px-0 md:text-xl lg:max-w-xl lg:text-3xl">
-                I&apos;m a software developer from{' '}
+                I&apos;m a full stack developer from{' '}
                 <span className="font-bold bg-gradient-to-r from-amber-300 via-amber-400 to-amber-500 bg-clip-text text-transparent">
                   Colombia.
                 </span>
