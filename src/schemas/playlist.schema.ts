@@ -1,13 +1,5 @@
 import { z } from 'zod'
 
-export const SongSchema = z.object({
-  id: z.number(),
-  name: z.string(),
-  artist: z.string(),
-  album: z.string(),
-  duration: z.string(),
-})
-
 const PlaylistDetailsSchema = z.object({
   id: z.string(),
   external_urls: z.object({
@@ -46,6 +38,4 @@ export const SpotifyPlaylistsResponseSchema = z.object({
   ),
 })
 
-export type TSong = z.infer<typeof SongSchema>
 export type TPlaylist = z.infer<typeof PlaylistSchema>
-export type TPlaylistOwner = z.infer<typeof PlaylistOwnerSchema>

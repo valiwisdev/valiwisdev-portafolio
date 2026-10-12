@@ -1,4 +1,5 @@
 import { List, Play } from 'lucide-react'
+import { getRoundedGoldenButtonClassName } from '../GoldenButtons'
 
 interface PlayerTab {
   value: string
@@ -7,8 +8,7 @@ interface PlayerTab {
   icon?: React.ReactNode
 }
 
-const sharedTabStyle =
-  'flex items-center justify-center py-3 px-3 rounded-xl text-sm font-medium transition-all duration-200 data-[state=active]:bg-gradient-to-r data-[state=active]:from-amber-500 data-[state=active]:to-amber-600 data-[state=active]:text-white data-[state=active]:shadow-lg bg-gradient-to-r from-slate-800/60 to-slate-700/40 text-white hover:from-slate-700/70 hover:to-slate-600/50 hover:text-amber-100 border-0 min-h-[44px] cursor-pointer'
+const sharedTabStyle = `${getRoundedGoldenButtonClassName('sm')} flex-1 min-h-[44px] !border-amber-400 !text-amber-400 !bg-transparent !shadow-lg !shadow-amber-400/10 hover:!text-amber-300 focus-visible:!outline-none focus-visible:!ring-0 data-[state=active]:!border-amber-400 data-[state=active]:!bg-transparent data-[state=active]:!text-amber-400 data-[state=active]:!shadow-xl data-[state=active]:!shadow-amber-400/20`
 
 const sharedIconStyle = 'w-4 h-4 mr-1.5'
 

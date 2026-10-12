@@ -10,12 +10,45 @@ import {
   FaDiscord,
 } from 'react-icons/fa6'
 
+const socialLinks = [
+  { href: 'https://github.com/valiwisdev', label: 'GitHub', Icon: FaGithub, left: '50%', top: '0%' },
+  {
+    href: 'https://www.linkedin.com/in/valiwisdev/',
+    label: 'LinkedIn',
+    Icon: FaLinkedin,
+    left: '93.3%',
+    top: '25%',
+  },
+  { href: 'https://x.com/itsvaliwis', label: 'X', Icon: FaXTwitter, left: '93.3%', top: '75%' },
+  {
+    href: 'https://www.instagram.com/itsvaliwis',
+    label: 'Instagram',
+    Icon: FaInstagram,
+    left: '50%',
+    top: '100%',
+  },
+  {
+    href: 'https://www.youtube.com/@valecodes',
+    label: 'YouTube',
+    Icon: FaYoutube,
+    left: '6.7%',
+    top: '75%',
+  },
+  {
+    href: 'https://discord.com/users/itsvaliwis',
+    label: 'Discord',
+    Icon: FaDiscord,
+    left: '6.7%',
+    top: '25%',
+  },
+] as const
+
 export default function SocialMediaIcons() {
   const { showSocialIcons } = useSocialMediaIcons()
 
   return (
     <div
-      className={`absolute inset-0 transition-all duration-300 ${
+      className={`absolute -inset-[16%] transition-all duration-300 md:-inset-[12%] ${
         showSocialIcons
           ? 'opacity-100 scale-100 animate-spin'
           : 'opacity-0 scale-95 pointer-events-none'
@@ -25,53 +58,17 @@ export default function SocialMediaIcons() {
         animationDelay: showSocialIcons ? '300ms' : undefined,
       }}
     >
-      <a
-        href="https://github.com/valiwisdev"
-        className="absolute top-1/2 -translate-y-1/2 -left-12 md:-left-20 bg-black/20 backdrop-blur-sm p-2 md:p-3 rounded-full hover:bg-amber-400/20 transition-all duration-300 group transform hover:scale-110"
-        aria-label="GitHub"
-      >
-        <FaGithub className="social-icon" />
-      </a>
-
-      <a
-        href="https://www.linkedin.com/in/valiwisdev/"
-        className="absolute -top-8 md:-top-12 left-3 md:left-8 bg-black/20 backdrop-blur-sm p-2 md:p-3 rounded-full hover:bg-amber-400/20 transition-all duration-300 group hover:scale-110"
-        aria-label="LinkedIn"
-      >
-        <FaLinkedin className="social-icon" />
-      </a>
-
-      <a
-        href="https://x.com/itsvaliwis"
-        className="absolute -top-8 md:-top-12 right-3 md:right-8 bg-black/20 backdrop-blur-sm p-2 md:p-3 rounded-full hover:bg-amber-400/20 transition-all duration-300 group hover:scale-110"
-        aria-label="X"
-      >
-        <FaXTwitter className="social-icon" />
-      </a>
-
-      <a
-        href="https://www.instagram.com/itsvaliwis"
-        className="absolute top-1/2 -translate-y-1/2 -right-12 md:-right-20 bg-black/20 backdrop-blur-sm p-2 md:p-3 rounded-full hover:bg-amber-400/20 transition-all duration-300 group transform hover:scale-110"
-        aria-label="Instagram"
-      >
-        <FaInstagram className="social-icon" />
-      </a>
-
-      <a
-        href="https://www.youtube.com/@valecodes"
-        className="absolute -bottom-8 md:-bottom-12 left-3 md:left-8 bg-black/20 backdrop-blur-sm p-2 md:p-3 rounded-full hover:bg-amber-400/20 transition-all duration-300 group hover:scale-110"
-        aria-label="YouTube"
-      >
-        <FaYoutube className="social-icon" />
-      </a>
-
-      <a
-        href="https://discord.com/users/itsvaliwis"
-        className="absolute -bottom-8 md:-bottom-12 right-3 md:right-8 bg-black/20 backdrop-blur-sm p-2 md:p-3 rounded-full hover:bg-amber-400/20 transition-all duration-300 group hover:scale-110"
-        aria-label="Discord"
-      >
-        <FaDiscord className="social-icon" />
-      </a>
+      {socialLinks.map(({ href, label, Icon, left, top }) => (
+        <a
+          key={label}
+          href={href}
+          aria-label={label}
+          className="group absolute -translate-x-1/2 -translate-y-1/2 rounded-full bg-black/20 p-2 backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:bg-amber-400/20 md:p-3"
+          style={{ left, top }}
+        >
+          <Icon className="social-icon" />
+        </a>
+      ))}
     </div>
   )
 }

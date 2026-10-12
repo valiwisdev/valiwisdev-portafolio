@@ -5,12 +5,12 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { ContactSchema, type TContact } from '@/schemas/contact.schema'
 import { sendEmail } from '@/lib/emailjs'
 import { useState } from 'react'
+import { CheckCircle2 } from 'lucide-react'
 import { RoundedGoldenButton } from './GoldenButtons'
 
 export default function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
-
   const {
     register,
     handleSubmit,
@@ -31,7 +31,6 @@ export default function ContactForm() {
 
     try {
       await sendEmail(data)
-      reset()
       setIsSuccess(true)
     } catch (error) {
       console.error('Failed to send message:', error)
@@ -40,8 +39,14 @@ export default function ContactForm() {
     }
   }
 
+  const closeSuccessPopup = () => {
+    reset()
+    setIsSuccess(false)
+  }
+
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6 w-full max-w-lg mx-auto">
+    <>
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6 w-full max-w-lg mx-auto">
       <div className="flex flex-col gap-2">
         <input
           {...register('name')}
@@ -81,11 +86,34 @@ export default function ContactForm() {
         {isSubmitting ? 'Sending...' : 'Send Message'}
       </RoundedGoldenButton>
 
+      </form>
       {isSuccess && (
-        <div className="text-center text-green-400 text-sm bg-green-400/5 p-3 rounded-md border border-green-400/20">
-          Message sent successfully! I&apos;ll get back to you soon.
+      <div
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="contact-success-title"
+        aria-describedby="contact-success-description"
+        className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/70 p-4 text-white backdrop-blur-sm"
+      >
+        <div className="w-full max-w-sm rounded-2xl border border-amber-400/30 bg-[#100b3f] p-6 text-center shadow-xl shadow-black/30">
+          <CheckCircle2 aria-hidden="true" className="mx-auto mb-3 h-10 w-10 text-emerald-400" />
+          <h2 id="contact-success-title" className="text-lg font-semibold text-white">
+            Message sent successfully
+          </h2>
+          <p id="contact-success-description" className="mt-2 text-sm text-slate-300">
+            Thanks for reaching out. I&apos;ll get back to you soon.
+          </p>
+          <RoundedGoldenButton
+            type="button"
+            onClick={closeSuccessPopup}
+            size="sm"
+            className="mt-5 w-full"
+          >
+            Close
+          </RoundedGoldenButton>
         </div>
+      </div>
       )}
-    </form>
+    </>
   )
 }

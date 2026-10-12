@@ -71,9 +71,11 @@ export function SkillsScene({
   useEffect(() => {
     const isFocused = selectedCategory !== null
     const cameraDistance = isFocused ? getFocusedCameraDistance(canvasWidth) : 20
+    const cameraHeight = canvasWidth < 480 ? 3.5 : 7
+    const mobileSceneOffset = canvasWidth < 480 ? -1.5 : 0
 
-    camera.position.set(0, isFocused ? 4 : 7, cameraDistance)
-    camera.lookAt(0, 0, 0)
+    camera.position.set(0, (isFocused ? 4 : cameraHeight) + mobileSceneOffset, cameraDistance)
+    camera.lookAt(0, mobileSceneOffset - (canvasWidth < 480 ? 2 : 0), 0)
   }, [camera, canvasWidth, selectedCategory])
 
   if (selectedCategory) {

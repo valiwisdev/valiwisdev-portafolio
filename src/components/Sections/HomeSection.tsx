@@ -8,27 +8,18 @@ import HomeControls from '../ui/HomeControls'
 
 export default function HomeSection() {
   return (
-    <section id="home" className="min-h-[100vh] md:min-h-svh relative">
-      <div className="max-w-7xl mx-auto min-h-[80vh] md:min-h-[calc(100svh-6rem)] flex flex-col md:grid md:grid-cols-2 gap-6 md:gap-12 items-center justify-center md:justify-items-center relative px-6 pt-19 md:pt-24">
+    <section id="home" className="relative min-h-svh">
+      <div className="relative mx-auto flex min-h-svh w-full max-w-7xl flex-col items-center justify-center gap-5 px-5 pb-16 pt-24 sm:px-8 md:gap-8 md:px-10 md:pb-20 md:pt-28 lg:grid lg:grid-cols-2 lg:justify-items-center lg:gap-12 lg:px-8 lg:pb-24 lg:pt-28 xl:gap-16">
         <SocialMediaIconsProvider>
           <HomeControls />
 
-          <div className="text-center md:text-left order-2 md:order-1 mt-3 md:mt-0">
+          <div className="order-2 mt-2 text-center lg:order-1 lg:mt-0 lg:text-left">
             <div className="inline-block">
               <TypewriterEffectSmooth words={introductionWords} />
               <div className="h-px bg-gradient-to-r from-amber-400 to-transparent w-0 animate-[growWidth_1s_ease-out_forwards]"></div>
             </div>
-            <div className="mt-2 md:mt-10 space-y-2 md:space-y-8">
-              <div className="md:hidden text-2xs font-light text-white leading-relaxed select-none px-4 space-y-2">
-                <p>I&apos;m a software developer</p>
-                <p>
-                  from{' '}
-                  <span className="font-bold bg-gradient-to-r from-amber-300 via-amber-400 to-amber-500 bg-clip-text text-transparent">
-                    Colombia.
-                  </span>
-                </p>
-              </div>
-              <p className="hidden md:block text-3xl font-light text-white leading-relaxed select-none">
+            <div className="mt-3 md:mt-5 lg:mt-10">
+              <p className="px-3 text-sm font-light leading-relaxed text-white select-none sm:text-base md:px-0 md:text-xl lg:max-w-xl lg:text-3xl">
                 I&apos;m a software developer from{' '}
                 <span className="font-bold bg-gradient-to-r from-amber-300 via-amber-400 to-amber-500 bg-clip-text text-transparent">
                   Colombia.
@@ -36,7 +27,7 @@ export default function HomeSection() {
               </p>
             </div>
 
-            <div className="mt-4 md:mt-12">
+            <div className="mt-5 md:mt-7 lg:mt-12">
               <Link
                 href="/cv"
                 className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border-2 border-amber-400 bg-transparent px-6 py-3 font-mono text-sm font-semibold text-amber-400 shadow-lg shadow-amber-400/10 transition-all hover:border-amber-300 hover:text-amber-300 hover:shadow-xl hover:shadow-amber-400/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-300"

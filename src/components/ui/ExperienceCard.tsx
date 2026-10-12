@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronDown } from 'lucide-react'
 import { Badge } from '@/components/ui/Badge'
+import { RoundedGoldenButton } from '@/components/ui/GoldenButtons'
 import type { Experience } from '@/schemas/experience.schema'
 
 interface ExperienceCardProps {
@@ -18,15 +19,15 @@ export function ExperienceCard({ experience, viewingIndex, myIndex }: Readonly<E
 
   return (
     <div className="group relative animate-fade-in">
-      <div className="flex items-center justify-center px-4 md:px-2">
+      <div className="flex items-center justify-center">
         <div className="w-full max-w-4xl relative">
-          <div className="relative bg-slate-900/30 backdrop-blur-xl border border-slate-700/30 rounded-2xl p-3 sm:p-4 md:p-6 transition-all duration-500 shadow-2xl">
+          <div className="relative min-h-[22rem] rounded-2xl border border-slate-700/30 bg-slate-900/30 p-4 pt-4 backdrop-blur-xl transition-all duration-500 sm:min-h-[30rem] sm:p-5 md:p-6 lg:min-h-[34rem]">
             <div className="absolute -top-px left-4 right-4 h-px bg-gradient-to-r from-transparent via-slate-400/30 to-transparent transition-all duration-500" />
 
-            <div className="relative z-10">
+            <div className="relative z-10 flex min-h-[20rem] flex-col justify-start sm:min-h-[27.5rem] md:min-h-[27rem] lg:min-h-[31rem]">
               {/* Header — always visible */}
-              <div className="flex flex-col gap-3 md:gap-4 mb-3 md:mb-6">
-                <div className="space-y-1 md:space-y-2">
+              <div className="mb-5 flex flex-col gap-5 md:mb-6 md:gap-4">
+                <div className="space-y-2 md:space-y-2">
                   <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-white leading-tight text-balance">
                     {experience.title}
                   </h3>
@@ -38,7 +39,7 @@ export function ExperienceCard({ experience, viewingIndex, myIndex }: Readonly<E
                   </div>
                 </div>
 
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between md:gap-2">
                   <div className="flex items-center gap-2 text-slate-300">
                     <svg className="w-3 h-3 md:w-4 md:h-4" fill="currentColor" viewBox="0 0 20 20">
                       <path
@@ -107,23 +108,25 @@ export function ExperienceCard({ experience, viewingIndex, myIndex }: Readonly<E
                 </div>
               </div>
 
-              <div className="md:hidden">
-                <div className="mb-3">
-                  <p className="text-slate-200 leading-relaxed text-xs font-light text-pretty">
+              <div className="flex flex-1 flex-col md:hidden">
+                <div className="mb-2">
+                  <p className="text-slate-200 text-xs font-light leading-6 text-pretty">
                     {experience.description}
                   </p>
                 </div>
 
-                <div className="flex flex-col items-center gap-1.5">
-                  <button
+                <div className="mt-auto flex flex-col items-center gap-1.5 pt-3">
+                  <RoundedGoldenButton
+                    type="button"
                     onClick={() => setExpanded((prev) => !prev)}
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-400/10 border border-amber-400/30 text-amber-300 text-xs font-semibold hover:bg-amber-400/20 hover:border-amber-400/50 transition-all duration-300 cursor-pointer"
+                    size="sm"
+                    className="inline-flex min-h-10 items-center gap-1.5 !px-4 !py-2 !text-xs"
                   >
                     <span>{isExpanded ? 'Show less' : 'Show more'}</span>
                     <ChevronDown
                       className={`w-3.5 h-3.5 transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`}
                     />
-                  </button>
+                  </RoundedGoldenButton>
                   {!isExpanded && (
                     <span className="text-[10px] text-amber-100/50">
                       Achievements & technologies

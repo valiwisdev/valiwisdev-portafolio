@@ -3,6 +3,7 @@
 import { TTrack } from '@/schemas/track.schema'
 import { MusicLoader } from './Loader'
 import { X } from 'lucide-react'
+import { CircularGoldenButton } from './GoldenButtons'
 import useSWR from 'swr'
 import { fetcher } from '@/lib/fetcher'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from './Tabs'
@@ -41,12 +42,15 @@ export function MusicPlayer({ onClose }: Readonly<{ onClose?: () => void }>) {
         }}
       >
         <div className="flex items-center justify-between mb-4">
-          <button
+          <CircularGoldenButton
+            type="button"
             onClick={onClose}
-            className="text-amber-400/60 hover:text-amber-400 transition-colors"
+            ariaLabel="Close music player"
+            title="Close music player"
+            size="sm"
           >
-            <X className="w-5 h-5" />
-          </button>
+            <X className="h-4 w-4" />
+          </CircularGoldenButton>
         </div>
         <div className="flex items-center justify-center py-16">
           <MusicLoader text="Looking for music..." />
@@ -57,7 +61,7 @@ export function MusicPlayer({ onClose }: Readonly<{ onClose?: () => void }>) {
 
   return (
     <div
-      className="backdrop-blur-md rounded-2xl border border-amber-400/30 p-6 w-80 min-h-[500px] max-h-[600px]"
+      className="backdrop-blur-md flex flex-col rounded-2xl border border-amber-400/30 p-6 w-80 min-h-[500px] max-h-[600px]"
       style={{
         background:
           'linear-gradient(135deg, rgba(15, 15, 64, 0.95) 0%, rgba(38, 11, 112, 0.95) 100%)',
@@ -69,17 +73,20 @@ export function MusicPlayer({ onClose }: Readonly<{ onClose?: () => void }>) {
           <div className="relative">
             <div className="w-2 h-2 bg-amber-400 rounded-full animate-pulse"></div>
           </div>
-          <span className="text-amber-300 font-semibold text-sm tracking-wider">MUSIC PLAYER</span>
+          <span className="text-orange-400 font-semibold text-sm tracking-wider">MUSIC PLAYER</span>
         </div>
-        <button
+        <CircularGoldenButton
+          type="button"
           onClick={onClose}
-          className="text-amber-400/60 hover:text-amber-400 transition-colors p-1 rounded-full hover:bg-amber-400/10"
+          ariaLabel="Close music player"
+          title="Close music player"
+          size="sm"
         >
-          <X className="w-5 h-5 cursor-pointer" />
-        </button>
+          <X className="h-4 w-4" />
+        </CircularGoldenButton>
       </div>
 
-      <Tabs value={activeTab} onValueChange={handleTabChange} className="flex-1">
+      <Tabs value={activeTab} onValueChange={handleTabChange} className="flex-1 min-h-0">
         <TabsList className="grid w-full grid-cols-2 mb-4 bg-transparent p-0 h-auto gap-2">
           {playerTabs.map((tab) => (
             <TabsTrigger key={tab.value} value={tab.value} className={tab.style}>
@@ -96,7 +103,10 @@ export function MusicPlayer({ onClose }: Readonly<{ onClose?: () => void }>) {
           <CurrentlyPlayingTab track={track ?? null} />
         </TabsContent>
 
-        <TabsContent value="playlist" className="flex-1 m-0 animate-in fade-in duration-300">
+        <TabsContent
+          value="playlist"
+          className="flex min-h-0 flex-1 m-0 animate-in fade-in duration-300"
+        >
           <PlaylistTab
             selectedPlaylist={selectedPlaylist}
             onSelectPlaylist={setSelectedPlaylist}

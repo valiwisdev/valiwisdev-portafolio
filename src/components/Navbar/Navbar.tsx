@@ -15,6 +15,12 @@ export default function Navbar() {
     handleToggleMenu(isMenuOpen, setIsMenuOpen, setIsAnimating)
   }
 
+  const closeMenu = () => {
+    setIsAnimating(false)
+    setIsMenuOpen(false)
+    document.body.style.overflow = 'unset'
+  }
+
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50)
     const frame = window.requestAnimationFrame(handleScroll)
@@ -105,7 +111,7 @@ export default function Navbar() {
                   isAnimating ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
                 }`}
               >
-                <NavbarItemsMobile onItemClick={toggleMenu} />
+                <NavbarItemsMobile onItemClick={closeMenu} />
               </div>
             </div>
           </div>

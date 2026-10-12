@@ -5,7 +5,7 @@ import { handleSmoothScroll } from '../Navbar/NavbarUtils'
 
 export default function ScrollButton() {
   return (
-    <div className="absolute -bottom-16 left-1/2 transform -translate-x-1/2 md:bottom-0 z-20">
+    <div className="absolute bottom-5 left-1/2 z-20 -translate-x-1/2 md:bottom-7 lg:bottom-8">
       <div
         className="text-amber-400 animate-bounce flex flex-col items-center cursor-pointer"
         onClick={() => {

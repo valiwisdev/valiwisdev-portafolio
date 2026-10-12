@@ -1,9 +1,10 @@
-import { ExternalLink, ArrowLeft } from 'lucide-react'
-import useSWR from 'swr'
+import { ExternalLink, ArrowLeft, ChevronRight } from 'lucide-react'
+import useSWR, { preload } from 'swr'
 import { fetcher } from '@/lib/fetcher'
 import { MusicLoader } from '../Loader'
 import type { TPlaylist } from '@/schemas/playlist.schema'
 import type { TTrack } from '@/schemas/track.schema'
+import { CircularGoldenButton, RoundedGoldenLink } from '../GoldenButtons'
 
 function formatDuration(durationMs: number | undefined | null) {
   if (!durationMs || Number.isNaN(durationMs)) return '0:00'
@@ -27,6 +28,11 @@ function usePlaylistTracks(playlistId: string | null) {
     refreshInterval: 3600000,
     revalidateOnFocus: false,
   })
+}
+
+function preloadPlaylistTracks(playlistId: string) {
+  const key = `/api/playlists/${encodeURIComponent(playlistId)}/tracks`
+  void preload(key, fetcher)
 }
 
 export function PlaylistTab({
@@ -58,127 +64,127 @@ export function PlaylistTab({
     const selectedCover = selectedPlaylist.images?.[0]?.url
 
     return (
-      <div className="space-y-4">
-        <div className="flex items-center gap-3 mb-4">
-          <button
+      <div className="flex h-full min-h-0 w-full min-w-0 flex-col gap-2">
+        <div className="flex h-12 min-w-0 shrink-0 items-center gap-2">
+          <CircularGoldenButton
             onClick={onBackToPlaylists}
-            className="p-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 hover:border-amber-400/40 transition-all duration-200"
+            ariaLabel="Back to playlists"
+            title="Back to playlists"
+            size="sm"
           >
-            <ArrowLeft className="w-4 h-4 text-amber-300" />
-          </button>
-          <div className="flex items-center gap-3">
+            <ArrowLeft className="h-4 w-4" />
+          </CircularGoldenButton>
+          <div className="flex min-w-0 flex-1 items-center gap-2">
             <div
-              className={`w-10 h-10 rounded-xl flex items-center justify-center shadow-lg bg-center bg-cover ${!selectedCover ? 'bg-gradient-to-br from-amber-400/20 to-amber-600/20' : ''}`}
+              className={`h-12 w-12 shrink-0 rounded-lg bg-center bg-cover ${!selectedCover ? 'bg-gradient-to-br from-amber-400/20 to-amber-600/20' : ''}`}
               style={selectedCover ? { backgroundImage: `url(${selectedCover})` } : undefined}
             />
-            <div>
-              <h3 className="text-sm font-semibold text-white">{selectedPlaylist.name}</h3>
-              <p className="text-xs text-slate-400">{selectedPlaylist.tracks.total} tracks</p>
+            <div className="flex h-full min-w-0 flex-1 flex-col justify-center">
+              <h3 className="truncate text-base font-semibold text-white">{selectedPlaylist.name}</h3>
+              <p className="text-sm text-slate-400">{selectedPlaylist.tracks.total} tracks</p>
             </div>
           </div>
         </div>
 
         {isLoadingTracks ? (
-          <div className="flex items-center justify-center py-12">
+          <div className="flex min-h-0 flex-1 items-center justify-center">
             <MusicLoader text="Loading tracks..." />
           </div>
         ) : tracksError ? (
-          <div className="py-8 text-center text-sm text-slate-400" role="status">
+          <div className="flex min-h-0 flex-1 flex-col items-center justify-center text-center text-sm text-slate-400" role="status">
             <p>Could not load tracks.</p>
             <button
               type="button"
               onClick={() => void retryTracks()}
-              className="mt-2 underline underline-offset-2 hover:text-white focus-visible:outline focus-visible:outline-amber-300"
+              className="mt-2 rounded-lg border border-amber-400/70 px-3 py-1.5 font-semibold text-amber-400 transition-colors hover:bg-amber-400 hover:text-slate-950 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-300"
             >
               Try again
             </button>
           </div>
         ) : selectedTracks?.length ? (
-          <div className="space-y-2 max-h-72 overflow-y-auto custom-scrollbar px-2">
+          <div className="min-h-0 min-w-0 flex-1 divide-y divide-white/10 overflow-y-auto px-1 custom-scrollbar">
             {selectedTracks.map((track, index) => (
               <div
                 key={track.id}
-                className="flex items-center gap-3 p-3 rounded-xl bg-gradient-to-r from-white/5 to-white/2 hover:from-white/10 hover:to-white/5 border border-transparent hover:border-amber-400/20 transition-all duration-300 cursor-pointer group"
+                className="flex min-w-0 items-center gap-2 py-2"
               >
                 <div className="flex-shrink-0 relative">
-                  <div className="w-8 h-8 bg-gradient-to-br from-amber-400/30 to-amber-600/20 rounded-lg flex items-center justify-center border border-amber-400/20 group-hover:border-amber-400/40 transition-all duration-300">
-                    <span className="text-xs font-bold text-amber-200 group-hover:text-amber-100 transition-colors">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full border border-white/15 bg-white/5">
+                    <span className="text-sm font-semibold text-slate-300">
                       {index + 1}
                     </span>
                   </div>
                 </div>
 
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-semibold text-amber-200 truncate group-hover:text-amber-100 transition-colors">
+                <div className="min-w-0 flex-1">
+                  <p className="truncate text-sm font-semibold text-white">
                     {track.name}
                   </p>
                   <p className="text-xs text-slate-400/80 truncate">
-                    <span className="text-amber-300/70">{track.artists[0].name}</span>
+                    <span className="text-slate-400">{track.artists[0].name}</span>
                     <span className="mx-1 text-slate-500">•</span>
                     <span>{track.album.name}</span>
                   </p>
                 </div>
 
-                <div className="flex-shrink-0 text-xs text-slate-500 mr-2">
+                <div className="shrink-0 pl-1 text-xs text-slate-400">
                   {formatDuration(track.duration_ms)}
                 </div>
               </div>
             ))}
           </div>
         ) : (
-          <p className="py-8 text-center text-sm text-slate-400">No tracks available.</p>
+          <p className="flex min-h-0 flex-1 items-center justify-center text-center text-sm text-slate-400">No tracks available.</p>
         )}
 
-        <div className="mt-4 mb-3">
-          <div className="h-px bg-gradient-to-r from-transparent via-amber-400/20 to-transparent"></div>
-        </div>
-
-        <div>
-          <a
+        <div className="w-full shrink-0 border-t border-amber-400/20 pt-3">
+          <RoundedGoldenLink
             href={selectedPlaylist.external_urls.spotify}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-amber-600/20 via-amber-500/25 to-amber-400/20 border border-amber-400/50 rounded-xl cursor-pointer backdrop-blur-md text-xs hover:bg-amber-400/15 hover:border-amber-400/70 hover:shadow-lg hover:shadow-amber-400/20 transition-all duration-300 w-full justify-center group"
+            size="sm"
+            className="flex w-full items-center justify-center gap-2 text-center"
           >
-            <span className="text-amber-200 font-semibold group-hover:text-amber-100 transition-colors duration-200">
-              Listen on Spotify
-            </span>
-            <ExternalLink className="w-3 h-3 text-amber-200 group-hover:text-amber-100 group-hover:scale-110 transition-all duration-200" />
-          </a>
+            <span>Listen on Spotify</span>
+            <ExternalLink className="h-4 w-4" />
+          </RoundedGoldenLink>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="space-y-3">
-      <div className="space-y-3 max-h-80 overflow-y-auto custom-scrollbar px-2">
-        {playlists?.map((playlist) => (
-          <button
-            key={playlist.id}
-            onClick={() => onSelectPlaylist(playlist)}
-            className="group relative p-4 rounded-2xl bg-gradient-to-r from-white/5 to-white/2 hover:from-white/10 hover:to-white/5 border border-white/10 hover:border-amber-400/30 transition-all duration-300 cursor-pointer w-full text-left"
-          >
-            <div className="flex items-center gap-4">
-              <div
-                className={`w-12 h-12 rounded-xl flex items-center justify-center shadow-lg bg-center bg-cover ${!playlist.images?.[0]?.url ? 'bg-gradient-to-br from-amber-400/20 to-amber-600/20' : ''}`}
-                style={
-                  playlist.images?.[0]?.url
-                    ? { backgroundImage: `url(${playlist.images[0].url})` }
-                    : undefined
-                }
-              />
+    <div className="flex min-h-0 flex-1 flex-col overflow-y-auto px-3 custom-scrollbar">
+      {playlists?.map((playlist) => (
+        <button
+          key={playlist.id}
+          type="button"
+          onClick={() => onSelectPlaylist(playlist)}
+          onPointerEnter={() => preloadPlaylistTracks(playlist.id)}
+          onFocus={() => preloadPlaylistTracks(playlist.id)}
+          className="group flex min-h-16 flex-1 cursor-pointer items-center gap-3 border-b border-white/10 py-3 text-left last:border-b-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-300"
+        >
+          <div
+            className={`h-12 w-12 shrink-0 rounded-lg bg-center bg-cover ${!playlist.images?.[0]?.url ? 'bg-gradient-to-br from-amber-400/20 to-amber-600/20' : ''}`}
+            style={
+              playlist.images?.[0]?.url
+                ? { backgroundImage: `url(${playlist.images[0].url})` }
+                : undefined
+            }
+          />
 
-              <div className="flex-1 min-w-0">
-                <h3 className="text-sm font-semibold text-white group-hover:text-amber-100 transition-colors truncate">
-                  {playlist.name}
-                </h3>
-                <p className="text-xs text-slate-500 mt-1">{playlist.tracks.total} tracks</p>
-              </div>
-            </div>
-          </button>
-        ))}
-      </div>
+          <div className="min-w-0 flex-1">
+            <h3 className="truncate text-sm font-semibold text-white transition-colors group-hover:text-orange-400 group-focus-visible:text-orange-400">
+              {playlist.name}
+            </h3>
+            <p className="mt-1 text-xs text-slate-400">{playlist.tracks.total} tracks</p>
+          </div>
+          <ChevronRight
+            aria-hidden="true"
+            className="h-4 w-4 shrink-0 text-slate-500 transition-colors group-hover:text-orange-400 group-focus-visible:text-orange-400"
+          />
+        </button>
+      ))}
     </div>
   )
 }

@@ -15,6 +15,27 @@ const goldenHoverStyles = `
 `
 
 const goldenDisabledStyles = 'disabled:opacity-50 disabled:cursor-not-allowed'
+const goldenSizeClasses = {
+  sm: 'px-4 py-2 text-sm',
+  md: 'px-6 py-3 md:px-8 md:py-4 text-sm md:text-base',
+  lg: 'px-8 py-4 md:px-10 md:py-5 text-base md:text-lg',
+}
+
+export function getRoundedGoldenButtonClassName(
+  size: 'sm' | 'md' | 'lg' = 'md',
+  className = '',
+  includeHover = true,
+) {
+  const baseClasses = `
+    rounded-lg
+    ${goldenBaseStyles.colors} ${goldenBaseStyles.shadows}
+    ${goldenBaseStyles.focus} ${goldenBaseStyles.transition}
+    ${goldenBaseStyles.font} ${goldenBaseStyles.cursor}
+  `
+
+  const hoverClasses = includeHover ? goldenHoverStyles : ''
+  return `${baseClasses} ${goldenSizeClasses[size]} ${hoverClasses} ${className}`.trim()
+}
 
 interface GoldenButtonProps {
   children: React.ReactNode
@@ -25,6 +46,7 @@ interface GoldenButtonProps {
   isActive?: boolean
   className?: string
   ariaLabel?: string
+  ariaExpanded?: boolean
   title?: string
   size?: 'sm' | 'md' | 'lg'
 }
@@ -75,28 +97,13 @@ export function RoundedGoldenButton({
   className = '',
   onClick,
   ariaLabel,
+  ariaExpanded,
   title,
   size = 'md',
   ...props
 }: GoldenButtonProps) {
-  const baseClasses = `
-    inline-block rounded-lg
-    ${goldenBaseStyles.colors} ${goldenBaseStyles.shadows}
-    ${goldenBaseStyles.focus} ${goldenBaseStyles.transition}
-    ${goldenBaseStyles.font} ${goldenBaseStyles.cursor}
-    ${goldenDisabledStyles}
-  `
-
-  const sizeClasses = {
-    sm: 'px-4 py-2 text-sm',
-    md: 'px-6 py-3 md:px-8 md:py-4 text-sm md:text-base',
-    lg: 'px-8 py-4 md:px-10 md:py-5 text-base md:text-lg',
-  }
-
-  const interactiveClasses = !isSubmitting ? goldenHoverStyles : ''
-
   const finalClassName =
-    `${baseClasses} ${sizeClasses[size]} ${interactiveClasses} ${className}`.trim()
+    `inline-block ${getRoundedGoldenButtonClassName(size, className, !isSubmitting)} ${goldenDisabledStyles}`.trim()
 
   return (
     <button
@@ -105,10 +112,30 @@ export function RoundedGoldenButton({
       className={finalClassName}
       onClick={onClick}
       aria-label={ariaLabel}
+      aria-expanded={ariaExpanded}
       title={title}
       {...props}
     >
       {children}
     </button>
+  )
+}
+
+interface RoundedGoldenLinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
+  size?: 'sm' | 'md' | 'lg'
+}
+
+export function RoundedGoldenLink({
+  children,
+  className = '',
+  size = 'md',
+  ...props
+}: RoundedGoldenLinkProps) {
+  const finalClassName = `flex items-center justify-center gap-2 ${getRoundedGoldenButtonClassName(size, className)}`
+
+  return (
+    <a className={finalClassName} {...props}>
+      {children}
+    </a>
   )
 }

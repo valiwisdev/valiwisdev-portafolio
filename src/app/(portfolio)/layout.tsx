@@ -1,4 +1,5 @@
 import Navbar from '@/components/Navbar/Navbar'
+import Footer from '@/components/Sections/Footer'
 import Stars from '@/components/ui/Stars'
 
 export default function PortfolioLayout({ children }: Readonly<{ children: React.ReactNode }>) {
@@ -12,6 +13,7 @@ export default function PortfolioLayout({ children }: Readonly<{ children: React
         <Stars />
       </div>
       {children}
+      <Footer />
     </>
   )
 }

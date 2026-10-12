@@ -11,7 +11,7 @@ export default function SkillsSection() {
   return (
     <section
       id="skills"
-      className="relative min-h-svh overflow-hidden px-3 py-14 sm:px-6 sm:py-20 lg:px-8"
+      className="relative min-h-svh overflow-hidden px-3 pb-16 pt-6 sm:px-6 md:px-8 md:pb-20 md:pt-10 lg:pb-16 lg:pt-8 xl:pb-20 xl:pt-10"
     >
       <div
         aria-hidden="true"
@@ -19,8 +19,8 @@ export default function SkillsSection() {
       />
 
       <div className="relative z-10 mx-auto w-full max-w-7xl">
-        <header className="mx-auto mb-6 max-w-2xl text-center sm:mb-8">
-          <h2 className="text-3xl font-bold leading-none text-white sm:text-5xl md:text-6xl">
+        <header className="mx-auto mb-6 max-w-2xl text-center md:mb-10 lg:mb-12">
+          <h2 className="text-3xl font-bold leading-none text-white sm:text-4xl md:text-5xl lg:text-6xl">
             My{' '}
             <span className="text-amber-400 drop-shadow-[0_0_20px_rgba(251,191,36,0.55)]">
               Skills
@@ -28,7 +28,7 @@ export default function SkillsSection() {
           </h2>
         </header>
 
-        <div className="grid items-stretch gap-4 lg:grid-cols-[minmax(0,3fr)_minmax(20rem,2fr)] lg:gap-5">
+        <div className="grid items-stretch gap-4 md:gap-6 lg:grid-cols-[minmax(0,3fr)_minmax(20rem,2fr)] lg:gap-5">
           <SkillsExplorer
             selectedCategory={selectedCategory}
             onSelect={setSelectedCategory}

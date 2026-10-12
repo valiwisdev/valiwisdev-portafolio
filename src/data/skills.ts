@@ -25,9 +25,9 @@ export const skillCategories = SkillCategoriesSchema.parse([
     color: '#fbbf24',
     description: 'Designing scalable server-side applications and RESTful APIs.',
     skills: [
-      { name: 'FastAPI', color: '#009688' },
+      { name: 'FastAPI', color: '#009688', languages: ['Python'] },
       { name: 'NestJS', color: '#e0234e', languages: ['TypeScript'] },
-      { name: 'Django', color: '#092e20' },
+      { name: 'Django', color: '#092e20', languages: ['Python'] },
     ],
   },
   {

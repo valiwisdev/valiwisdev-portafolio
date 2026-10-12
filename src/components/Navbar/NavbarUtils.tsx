@@ -31,10 +31,7 @@ interface HandleSmoothScrollParams {
 export function handleSmoothScroll({ href }: HandleSmoothScrollParams) {
   const element = document.querySelector(href) as HTMLElement
   if (element) {
-    window.scrollTo({
-      top: element.offsetTop,
-      behavior: 'smooth',
-    })
+    element.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
 }
 
