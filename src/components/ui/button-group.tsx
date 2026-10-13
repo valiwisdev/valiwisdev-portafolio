@@ -2,7 +2,7 @@ import type { ComponentProps } from 'react'
 
 import { cn } from '@/lib/utils'
 
-function ButtonGroup({ className, ...props }: ComponentProps<'div'>) {
+function ButtonGroup({ className, ...props }: Readonly<ComponentProps<'div'>>) {
   return (
     <div
       role="group"

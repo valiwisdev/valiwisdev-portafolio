@@ -47,6 +47,9 @@ interface GoldenButtonProps {
   className?: string
   ariaLabel?: string
   ariaExpanded?: boolean
+  ariaPressed?: boolean
+  ariaHasPopup?: React.AriaAttributes['aria-haspopup']
+  buttonRef?: React.Ref<HTMLButtonElement>
   title?: string
   size?: 'sm' | 'md' | 'lg'
 }
@@ -56,9 +59,14 @@ export function CircularGoldenButton({
   children,
   isActive = false,
   ariaLabel,
+  ariaExpanded,
+  ariaPressed,
+  ariaHasPopup,
+  buttonRef,
   title,
   disabled = false,
   size = 'md',
+  className = '',
 }: Readonly<GoldenButtonProps>) {
   const sizeClasses = {
     sm: 'w-8 h-8 text-sm',
@@ -78,11 +86,15 @@ export function CircularGoldenButton({
 
   return (
     <button
+      ref={buttonRef}
       type="button"
       onClick={onClick}
       disabled={disabled}
-      className={`${baseClasses} ${interactiveClasses}`}
+      className={`${baseClasses} ${interactiveClasses} ${className}`}
       aria-label={ariaLabel}
+      aria-expanded={ariaExpanded}
+      aria-pressed={ariaPressed}
+      aria-haspopup={ariaHasPopup}
       title={title}
     >
       {children}
@@ -101,7 +113,7 @@ export function RoundedGoldenButton({
   title,
   size = 'md',
   ...props
-}: GoldenButtonProps) {
+}: Readonly<GoldenButtonProps>) {
   const finalClassName =
     `inline-block ${getRoundedGoldenButtonClassName(size, className, !isSubmitting)} ${goldenDisabledStyles}`.trim()
 
@@ -130,7 +142,7 @@ export function RoundedGoldenLink({
   className = '',
   size = 'md',
   ...props
-}: RoundedGoldenLinkProps) {
+}: Readonly<RoundedGoldenLinkProps>) {
   const finalClassName = `flex items-center justify-center gap-2 ${getRoundedGoldenButtonClassName(size, className)}`
 
   return (

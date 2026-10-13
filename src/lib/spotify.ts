@@ -1,105 +1,99 @@
 import { z } from 'zod'
 
-const client_id = process.env.SPOTIFY_CLIENT_ID
-const client_secret = process.env.SPOTIFY_CLIENT_SECRET
-const refresh_token = process.env.SPOTIFY_REFRESH_TOKEN
-
-const basic = Buffer.from(`${client_id}:${client_secret}`).toString('base64')
-
-const NOW_PLAYING_ENDPOINT = `https://api.spotify.com/v1/me/player/currently-playing`
-const CURRENT_USER_PLAYLISTS_ENDPOINT = `https://api.spotify.com/v1/me/playlists`
-const TOKEN_ENDPOINT = `https://accounts.spotify.com/api/token`
-
 const SpotifyAccessTokenSchema = z.object({
   access_token: z.string(),
   expires_in: z.number().positive(),
 })
 
-const PLAYLIST_ITEMS_ENDPOINT = (playlistId: string, limit = 5) =>
-  `https://api.spotify.com/v1/playlists/${encodeURIComponent(playlistId)}/items?limit=${limit}`
-const PLAYLIST_TRACKS_ENDPOINT = (playlistId: string, limit = 5) =>
-  `https://api.spotify.com/v1/playlists/${encodeURIComponent(playlistId)}/tracks?limit=${limit}`
-
 type SpotifyAccessToken = z.infer<typeof SpotifyAccessTokenSchema>
 
-let cachedAccessToken: { token: SpotifyAccessToken; expiresAt: number } | null = null
-let pendingAccessToken: Promise<SpotifyAccessToken> | null = null
+export class SpotifyClient {
+  private static readonly NOW_PLAYING_ENDPOINT =
+    'https://api.spotify.com/v1/me/player/currently-playing'
+  private static readonly CURRENT_USER_PLAYLISTS_ENDPOINT =
+    'https://api.spotify.com/v1/me/playlists'
+  private static readonly TOKEN_ENDPOINT = 'https://accounts.spotify.com/api/token'
 
-const requestAccessToken = async (): Promise<SpotifyAccessToken> => {
-  const response = await fetch(TOKEN_ENDPOINT, {
-    method: 'POST',
-    headers: {
-      Authorization: `Basic ${basic}`,
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: new URLSearchParams({
-      grant_type: 'refresh_token',
-      refresh_token: refresh_token ?? '',
-    }),
-  })
+  private readonly basicAuthorization: string
+  private cachedAccessToken: { token: SpotifyAccessToken; expiresAt: number } | null = null
+  private pendingAccessToken: Promise<SpotifyAccessToken> | null = null
 
-  if (!response.ok) {
-    throw new Error(`Spotify token request failed with status ${response.status}`)
+  constructor(
+    clientId = process.env.SPOTIFY_CLIENT_ID,
+    clientSecret = process.env.SPOTIFY_CLIENT_SECRET,
+    private readonly refreshToken = process.env.SPOTIFY_REFRESH_TOKEN,
+  ) {
+    this.basicAuthorization = Buffer.from(`${clientId}:${clientSecret}`).toString('base64')
   }
 
-  return SpotifyAccessTokenSchema.parse(await response.json())
-}
-
-const getAccessToken = async (): Promise<SpotifyAccessToken> => {
-  if (cachedAccessToken && cachedAccessToken.expiresAt > Date.now()) {
-    return cachedAccessToken.token
+  async getNowPlaying() {
+    return this.fetchWithAccessToken(SpotifyClient.NOW_PLAYING_ENDPOINT)
   }
 
-  pendingAccessToken ??= requestAccessToken()
+  async getCurrentUserPlaylists() {
+    return this.fetchWithAccessToken(SpotifyClient.CURRENT_USER_PLAYLISTS_ENDPOINT)
+  }
 
-  try {
-    const token = await pendingAccessToken
-    cachedAccessToken = {
-      token,
-      expiresAt: Date.now() + Math.max(0, token.expires_in - 60) * 1000,
+  async getPlaylistItems(playlistId: string, limit = 5) {
+    return this.fetchWithAccessToken(this.getPlaylistEndpoint(playlistId, 'items', limit))
+  }
+
+  async getLegacyPlaylistTracks(playlistId: string, limit = 5) {
+    return this.fetchWithAccessToken(this.getPlaylistEndpoint(playlistId, 'tracks', limit))
+  }
+
+  private getPlaylistEndpoint(playlistId: string, resource: 'items' | 'tracks', limit: number) {
+    return `https://api.spotify.com/v1/playlists/${encodeURIComponent(playlistId)}/${resource}?limit=${limit}`
+  }
+
+  private async fetchWithAccessToken(endpoint: string) {
+    const { access_token } = await this.getAccessToken()
+
+    return fetch(endpoint, {
+      headers: {
+        Authorization: `Bearer ${access_token}`,
+      },
+    })
+  }
+
+  private async requestAccessToken(): Promise<SpotifyAccessToken> {
+    const response = await fetch(SpotifyClient.TOKEN_ENDPOINT, {
+      method: 'POST',
+      headers: {
+        Authorization: `Basic ${this.basicAuthorization}`,
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: new URLSearchParams({
+        grant_type: 'refresh_token',
+        refresh_token: this.refreshToken ?? '',
+      }),
+    })
+
+    if (!response.ok) {
+      throw new Error(`Spotify token request failed with status ${response.status}`)
     }
-    return token
-  } finally {
-    pendingAccessToken = null
+
+    return SpotifyAccessTokenSchema.parse(await response.json())
+  }
+
+  private async getAccessToken(): Promise<SpotifyAccessToken> {
+    if (this.cachedAccessToken && this.cachedAccessToken.expiresAt > Date.now()) {
+      return this.cachedAccessToken.token
+    }
+
+    this.pendingAccessToken ??= this.requestAccessToken()
+
+    try {
+      const token = await this.pendingAccessToken
+      this.cachedAccessToken = {
+        token,
+        expiresAt: Date.now() + Math.max(0, token.expires_in - 60) * 1000,
+      }
+      return token
+    } finally {
+      this.pendingAccessToken = null
+    }
   }
 }
 
-export const getNowPlaying = async () => {
-  const { access_token } = await getAccessToken()
-
-  return fetch(NOW_PLAYING_ENDPOINT, {
-    headers: {
-      Authorization: `Bearer ${access_token}`,
-    },
-  })
-}
-
-export const getCurrentUserPlaylists = async () => {
-  const { access_token } = await getAccessToken()
-
-  return fetch(CURRENT_USER_PLAYLISTS_ENDPOINT, {
-    headers: {
-      Authorization: `Bearer ${access_token}`,
-    },
-  })
-}
-
-export const getPlaylistItems = async (playlistId: string, limit = 5) => {
-  const { access_token } = await getAccessToken()
-
-  return fetch(PLAYLIST_ITEMS_ENDPOINT(playlistId, limit), {
-    headers: {
-      Authorization: `Bearer ${access_token}`,
-    },
-  })
-}
-
-export const getLegacyPlaylistTracks = async (playlistId: string, limit = 5) => {
-  const { access_token } = await getAccessToken()
-
-  return fetch(PLAYLIST_TRACKS_ENDPOINT(playlistId, limit), {
-    headers: {
-      Authorization: `Bearer ${access_token}`,
-    },
-  })
-}
+export const spotify = new SpotifyClient()

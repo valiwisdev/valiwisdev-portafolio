@@ -7,14 +7,14 @@ export const TypewriterEffectSmooth = ({
   words,
   className,
   cursorClassName,
-}: {
+}: Readonly<{
   words: {
     text: string
     className?: string
   }[]
   className?: string
   cursorClassName?: string
-}) => {
+}>) => {
   const wordsArray = words.map((word) => ({
     ...word,
     text: word.text.split(''),

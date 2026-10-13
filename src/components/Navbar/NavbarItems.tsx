@@ -23,21 +23,18 @@ export function NavbarItemsDesktop() {
   )
 }
 
-export function NavbarItemsMobile({ onItemClick }: { onItemClick: () => void }) {
+export function NavbarItemsMobile({ onItemClick }: Readonly<{ onItemClick: () => void }>) {
   return (
-    <div className="flex flex-col space-y-12 text-center">
-      {navbarItems.map((item, index, array) => (
-        <div key={item.label} className="flex flex-col items-center">
+    <div className="flex w-full flex-col gap-1 text-center">
+      {navbarItems.map((item) => (
+        <div key={item.label}>
           <Link
             href={`/${item.href}`}
             onClick={onItemClick}
-            className="text-white font-mono  text-2xl font-semibold hover:text-amber-300 transition-colors duration-300 drop-shadow-[0_0_8px_rgba(255,255,255,0.3)] text-center cursor-pointer py-2"
+            className="flex min-h-12 items-center justify-center rounded-lg py-3 text-center font-mono text-base font-semibold text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.3)] transition-colors duration-300 hover:bg-white/5 hover:text-amber-300 focus-visible:bg-white/5 focus-visible:text-amber-300 focus-visible:outline-none"
           >
             {item.label}
           </Link>
-          {index < array.length - 1 && (
-            <div className="mt-6 w-40 h-px bg-gradient-to-r from-transparent via-amber-400/60 to-transparent mx-auto"></div>
-          )}
         </div>
       ))}
     </div>

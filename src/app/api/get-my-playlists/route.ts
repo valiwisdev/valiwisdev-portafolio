@@ -1,4 +1,4 @@
-import { getCurrentUserPlaylists } from '@/lib/spotify'
+import { spotify } from '@/lib/spotify'
 import { NextResponse } from 'next/server'
 import { PlaylistsSchema, SpotifyPlaylistsResponseSchema } from '@/schemas/playlist.schema'
 import type { TPlaylist } from '@/schemas/playlist.schema'
@@ -12,7 +12,7 @@ let cachedPlaylists: { data: TPlaylist[]; expiresAt: number } | null = null
 let pendingRequest: Promise<TPlaylist[] | null> | null = null
 
 async function fetchPlaylists(): Promise<TPlaylist[] | null> {
-  const request = await getCurrentUserPlaylists()
+  const request = await spotify.getCurrentUserPlaylists()
   if (!request.body) return null
 
   const data = SpotifyPlaylistsResponseSchema.parse(await request.json())

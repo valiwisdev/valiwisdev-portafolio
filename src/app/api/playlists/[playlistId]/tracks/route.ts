@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
 
-import { getLegacyPlaylistTracks, getPlaylistItems } from '@/lib/spotify'
+import { spotify } from '@/lib/spotify'
 import { SpotifyPlaylistItemsSchema, TrackSchema, TracksSchema } from '@/schemas/track.schema'
 import type { TTrack } from '@/schemas/track.schema'
 
@@ -15,8 +15,8 @@ const cachedTracks = new Map<string, { data: TTrack[]; expiresAt: number }>()
 const pendingRequests = new Map<string, Promise<TTrack[]>>()
 
 async function fetchPlaylistTracks(playlistId: string): Promise<TTrack[]> {
-  let response = await getPlaylistItems(playlistId, 5)
-  if (response.status === 404) response = await getLegacyPlaylistTracks(playlistId, 5)
+  let response = await spotify.getPlaylistItems(playlistId, 5)
+  if (response.status === 404) response = await spotify.getLegacyPlaylistTracks(playlistId, 5)
   if (!response.ok)
     throw new Error(`Spotify playlist request failed with status ${response.status}`)
 

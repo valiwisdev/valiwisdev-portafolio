@@ -6,11 +6,11 @@ import { Check, ChevronDown, ChevronUp } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
 
-function Select(props: React.ComponentProps<typeof SelectPrimitive.Root>) {
+function Select(props: Readonly<React.ComponentProps<typeof SelectPrimitive.Root>>) {
   return <SelectPrimitive.Root data-slot="select" {...props} />
 }
 
-function SelectValue(props: React.ComponentProps<typeof SelectPrimitive.Value>) {
+function SelectValue(props: Readonly<React.ComponentProps<typeof SelectPrimitive.Value>>) {
   return <SelectPrimitive.Value data-slot="select-value" {...props} />
 }
 
@@ -19,9 +19,11 @@ function SelectTrigger({
   size = 'default',
   children,
   ...props
-}: React.ComponentProps<typeof SelectPrimitive.Trigger> & {
-  size?: 'sm' | 'default'
-}) {
+}: Readonly<
+  React.ComponentProps<typeof SelectPrimitive.Trigger> & {
+    size?: 'sm' | 'default'
+  }
+>) {
   return (
     <SelectPrimitive.Trigger
       data-slot="select-trigger"
@@ -46,7 +48,7 @@ function SelectContent({
   children,
   position = 'popper',
   ...props
-}: React.ComponentProps<typeof SelectPrimitive.Content>) {
+}: Readonly<React.ComponentProps<typeof SelectPrimitive.Content>>) {
   return (
     <SelectPrimitive.Portal>
       <SelectPrimitive.Content
@@ -83,7 +85,7 @@ function SelectItem({
   className,
   children,
   ...props
-}: React.ComponentProps<typeof SelectPrimitive.Item>) {
+}: Readonly<React.ComponentProps<typeof SelectPrimitive.Item>>) {
   return (
     <SelectPrimitive.Item
       data-slot="select-item"
@@ -103,10 +105,4 @@ function SelectItem({
   )
 }
 
-export {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-}
+export { Select, SelectContent, SelectItem, SelectTrigger, SelectValue }

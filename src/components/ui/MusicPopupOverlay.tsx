@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useCallback } from 'react'
+import { createPortal } from 'react-dom'
 
 interface MusicPopupOverlayProps {
   onClose: () => void
@@ -13,33 +14,36 @@ export default function MusicPopupOverlay({ onClose, children }: Readonly<MusicP
   }, [onClose])
 
   useEffect(() => {
-    document.body.style.overflow = 'hidden'
+    const body = document.body
+    const previousOverflow = body.style.overflow
+    const previousPaddingRight = body.style.paddingRight
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth
 
-    const navbar = document.querySelector('nav')
-    if (navbar) {
-      navbar.style.pointerEvents = 'none'
-      navbar.style.filter = 'blur(2px)'
-      navbar.style.transition = 'filter 0.3s ease'
+    body.style.overflow = 'hidden'
+    if (scrollbarWidth > 0) {
+      body.style.paddingRight = `calc(${window.getComputedStyle(body).paddingRight} + ${scrollbarWidth}px)`
     }
 
     window.addEventListener('resize', handleResize)
 
     return () => {
-      document.body.style.overflow = 'unset'
-
-      const navbar = document.querySelector('nav')
-      if (navbar) {
-        navbar.style.pointerEvents = 'auto'
-        navbar.style.filter = 'none'
-      }
-
+      body.style.overflow = previousOverflow
+      body.style.paddingRight = previousPaddingRight
       window.removeEventListener('resize', handleResize)
     }
   }, [handleResize])
 
-  return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-[2px] z-40 flex items-center justify-center">
+  if (typeof document === 'undefined') return null
+
+  return createPortal(
+    <div
+      className="fixed inset-0 z-[110] flex items-center justify-center bg-black/50 p-4 backdrop-blur-[2px]"
+      role="dialog"
+      aria-label="Music player"
+      aria-modal="true"
+    >
       {children}
-    </div>
+    </div>,
+    document.body,
   )
 }

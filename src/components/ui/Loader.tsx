@@ -1,7 +1,7 @@
 import { Music } from 'lucide-react'
 import { motion } from 'motion/react'
 
-const LoaderFive = ({ text }: { text: string }) => (
+const LoaderFive = ({ text }: Readonly<{ text: string }>) => (
   <div className="font-sans font-semibold [--shadow-color:var(--color-neutral-500)] dark:[--shadow-color:var(--color-neutral-100)]">
     {text.split('').map((char, index) => (
       <motion.span
@@ -32,7 +32,7 @@ const LoaderFive = ({ text }: { text: string }) => (
   </div>
 )
 
-export const MusicLoader = ({ text }: { text: string }) => (
+export const MusicLoader = ({ text }: Readonly<{ text: string }>) => (
   <div className="select-none flex items-center gap-2 text-center text-amber-400/60 md:text-left">
     <Music className="size-5 font-medium" />
     <LoaderFive text={text} />

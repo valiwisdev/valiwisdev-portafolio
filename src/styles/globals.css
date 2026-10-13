@@ -84,7 +84,7 @@ section {
 }
 
 .social-icon {
-  @apply w-4 h-4 md:w-6 md:h-6 text-white group-hover:text-amber-400 transition-colors duration-300;
+  @apply size-3.5 text-white transition-colors duration-300 group-hover:text-amber-400 sm:size-5 lg:size-6;
 }
 
 @keyframes growWidth {

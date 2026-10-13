@@ -1,9 +1,26 @@
 import { TTrack } from '@/schemas/track.schema'
-import { Music, ExternalLink } from 'lucide-react'
+import { ExternalLink, Music, Radio } from 'lucide-react'
+import { useReducedMotion } from 'framer-motion'
 import Image from 'next/image'
 import { RoundedGoldenLink } from '../GoldenButtons'
+import { MusicLoader } from '../Loader'
 
-export function CurrentlyPlayingTab({ track }: Readonly<{ track: TTrack | null }>) {
+export function CurrentlyPlayingTab({
+  track,
+  isPlaying = false,
+  isLoading = false,
+}: Readonly<{ track: TTrack | null; isPlaying?: boolean; isLoading?: boolean }>) {
+  const prefersReducedMotion = useReducedMotion() ?? false
+  const animatePlayback = isPlaying && !prefersReducedMotion
+
+  if (isLoading) {
+    return (
+      <div className="flex h-full min-h-0 w-full items-center justify-center">
+        <MusicLoader text="Looking for music..." />
+      </div>
+    )
+  }
+
   if (!track) {
     return (
       <div className="flex flex-col items-center justify-center py-12">
@@ -22,29 +39,74 @@ export function CurrentlyPlayingTab({ track }: Readonly<{ track: TTrack | null }
   }
 
   return (
-    <div className="flex w-full flex-col items-center space-y-3 p-3 text-center">
-      {track.album.images && track.album.images.length > 0 && (
-        <Image
-          src={track.album.images[0].url}
-          alt={`${track.album.name} cover`}
-          width={144}
-          height={144}
-          className="h-36 w-36 rounded-2xl object-cover"
+    <div className="flex h-full min-h-0 w-full flex-col gap-2 p-2">
+      <div className="flex shrink-0 items-center justify-between px-1 font-mono text-[0.5625rem] uppercase tracking-[0.16em]">
+        <span className="inline-flex items-center gap-1.5 leading-none text-amber-300/80">
+          <Radio aria-hidden="true" className="size-3.5 shrink-0" />
+          Track signal
+        </span>
+        <span className="inline-flex items-center gap-1.5 leading-none text-slate-400">
+          <span
+            aria-hidden="true"
+            className={`size-1.5 shrink-0 self-center rounded-full ${isPlaying ? 'bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.8)]' : 'bg-slate-500'}`}
+          />
+          {isPlaying ? 'On air' : 'Standby'}
+        </span>
+      </div>
+
+      <div className="relative flex min-h-0 flex-1 items-center justify-center overflow-hidden rounded-xl bg-slate-950/20">
+        <span
+          aria-hidden="true"
+          className="absolute h-24 w-[88%] rotate-[-18deg] rounded-[50%] border border-white/10"
         />
-      )}
-
-      <div className="space-y-4 w-full px-2">
-        <div className="space-y-2">
-          <h3 className="text-lg font-bold leading-tight text-slate-200 cursor-default break-words">
-            {track.name}
-          </h3>
-
-          <p className="text-sm text-slate-300/90 font-medium cursor-default break-words">
-            {track.artists?.map((a) => a.name).join(', ')}
-          </p>
-
-          <p className="text-xs text-slate-400/70 cursor-default break-words">{track.album.name}</p>
+        <span
+          aria-hidden="true"
+          className={`absolute h-24 w-[88%] rotate-[18deg] rounded-[50%] border border-amber-400/35 ${animatePlayback ? 'animate-[spin_14s_linear_infinite]' : ''}`}
+        >
+          <span className="absolute left-1/2 top-0 size-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-amber-400 shadow-[0_0_10px_rgba(251,191,36,0.75)] ring-2 ring-violet-950" />
+        </span>
+        {isPlaying && (
+          <span
+            aria-hidden="true"
+            className={`absolute size-32 rounded-full bg-amber-400/15 blur-2xl ${animatePlayback ? 'animate-pulse' : ''}`}
+          />
+        )}
+        <div className="relative z-10 grid size-36 shrink-0 place-items-center">
+          {track.album.images[0]?.url ? (
+            <Image
+              src={track.album.images[0].url}
+              alt={`${track.album.name} cover`}
+              width={128}
+              height={128}
+              className="size-32 rounded-xl border border-white/10 object-cover shadow-xl shadow-black/30"
+            />
+          ) : (
+            <div className="grid size-32 place-items-center rounded-xl border border-white/10 bg-slate-900 text-amber-400">
+              <Music aria-hidden="true" className="size-10" />
+            </div>
+          )}
         </div>
+        <span
+          aria-hidden="true"
+          className="absolute bottom-3 right-4 size-1 rounded-full bg-cyan-200/70"
+        />
+        <span
+          aria-hidden="true"
+          className="absolute left-5 top-4 size-1 rounded-full bg-amber-200/70"
+        />
+      </div>
+
+      <div className="shrink-0 rounded-lg border border-white/10 bg-slate-950/25 px-3 py-2 text-left">
+        <p className="mb-1 font-mono text-[0.5625rem] uppercase tracking-[0.16em] text-amber-400/70">
+          Current transmission
+        </p>
+        <h3 className="line-clamp-2 text-base font-bold leading-tight text-slate-100">
+          {track.name}
+        </h3>
+        <p className="mt-1 truncate text-sm font-medium text-slate-300/90">
+          {track.artists?.map((artist) => artist.name).join(', ')}
+        </p>
+        <p className="truncate text-xs text-slate-400/70">{track.album.name}</p>
       </div>
 
       <RoundedGoldenLink
@@ -52,7 +114,7 @@ export function CurrentlyPlayingTab({ track }: Readonly<{ track: TTrack | null }
         target="_blank"
         rel="noopener noreferrer"
         size="sm"
-        className="flex w-full items-center justify-center gap-2 text-center"
+        className="flex w-full shrink-0 items-center justify-center gap-2 text-center"
       >
         <span>Open in Spotify</span>
         <ExternalLink className="h-4 w-4" />

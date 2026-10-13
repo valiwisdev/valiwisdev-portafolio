@@ -30,9 +30,9 @@ function asciiDashes(value: string) {
 
 export default async function CvPage({
   searchParams,
-}: {
+}: Readonly<{
   searchParams: Promise<{ lang?: string | string[] }>
-}) {
+}>) {
   const { lang } = await searchParams
   const locale: ResumeLocale = lang === 'es' ? 'es' : 'en'
   const cv = getLocalizedResume(locale)

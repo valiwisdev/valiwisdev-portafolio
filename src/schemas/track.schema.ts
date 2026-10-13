@@ -16,7 +16,13 @@ export const TrackSchema = z.object({
 export const TracksSchema = z.array(TrackSchema)
 
 export const SpotifyCurrentlyPlayingSchema = z.object({
+  is_playing: z.boolean(),
   item: TrackSchema,
+})
+
+export const CurrentTrackResponseSchema = z.object({
+  track: TrackSchema,
+  isPlaying: z.boolean(),
 })
 
 export const SpotifyPlaylistItemsSchema = z.object({
@@ -29,3 +35,4 @@ export const SpotifyPlaylistItemsSchema = z.object({
 })
 
 export type TTrack = z.infer<typeof TrackSchema>
+export type TCurrentTrack = z.infer<typeof CurrentTrackResponseSchema>

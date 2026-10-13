@@ -1,10 +1,11 @@
 import Navbar from '@/components/Navbar/Navbar'
 import Footer from '@/components/Sections/Footer'
 import Stars from '@/components/ui/Stars'
+import { SocialMediaIconsProvider } from '@/context/SocialMediaIconsContext'
 
 export default function PortfolioLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <>
+    <SocialMediaIconsProvider>
       <Navbar />
       <div
         className="fixed inset-0 -z-20 pointer-events-none print:hidden"
@@ -14,6 +15,6 @@ export default function PortfolioLayout({ children }: Readonly<{ children: React
       </div>
       {children}
       <Footer />
-    </>
+    </SocialMediaIconsProvider>
   )
 }

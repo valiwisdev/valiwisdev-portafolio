@@ -13,6 +13,7 @@ interface SkillsSceneProps {
   selectedCategory: SkillCategory | null
   onSelect: (category: SkillCategory) => void
   reduceMotion: boolean
+  timeScale: number
 }
 
 const focusedAmbientLightProps = { intensity: 0.55 } satisfies ThreeElements['ambientLight']
@@ -61,6 +62,7 @@ export function SkillsScene({
   selectedCategory,
   onSelect,
   reduceMotion,
+  timeScale,
 }: Readonly<SkillsSceneProps>) {
   const canvasWidth = useThree((state) => state.size.width)
   const camera = useThree((state) => state.camera)
@@ -94,13 +96,14 @@ export function SkillsScene({
           category={selectedCategory}
           scale={scale * 1.9}
           reduceMotion={reduceMotion}
+          timeScale={timeScale}
         />
         <OrbitControls
           enablePan={false}
           enableZoom={false}
           enableRotate
           autoRotate={!reduceMotion}
-          autoRotateSpeed={0.65}
+          autoRotateSpeed={0.65 * timeScale}
         />
       </>
     )
@@ -109,7 +112,7 @@ export function SkillsScene({
   return (
     <>
       <ambientLight {...overviewAmbientLightProps} />
-      <Sun scale={scale} reduceMotion={reduceMotion} />
+      <Sun scale={scale} reduceMotion={reduceMotion} timeScale={timeScale} />
       {Array.from({ length: categoryOrbitBandCount }, (_, orbitBandIndex) => (
         <OrbitalRing key={orbitBandIndex} radius={3.1 + orbitBandIndex * 2.15} />
       ))}
@@ -127,6 +130,7 @@ export function SkillsScene({
             onSelect={onSelect}
             scale={scale}
             reduceMotion={reduceMotion}
+            timeScale={timeScale}
           />
         )
       })}
@@ -135,20 +139,24 @@ export function SkillsScene({
         enableZoom={false}
         enableRotate
         autoRotate={!reduceMotion}
-        autoRotateSpeed={0.35}
+        autoRotateSpeed={0.35 * timeScale}
       />
     </>
   )
 }
 
-function Sun({ scale, reduceMotion }: Readonly<{ scale: number; reduceMotion: boolean }>) {
+function Sun({
+  scale,
+  reduceMotion,
+  timeScale,
+}: Readonly<{ scale: number; reduceMotion: boolean; timeScale: number }>) {
   const sunRef = useRef<THREE.Mesh>(null)
   const glowRef = useRef<THREE.Mesh>(null)
+  const elapsedRef = useRef(0)
 
-  useFrame((state) => {
-    if (reduceMotion) return
-
-    const time = state.clock.getElapsedTime()
+  useFrame((_, delta) => {
+    if (!reduceMotion) elapsedRef.current += delta * timeScale
+    const time = elapsedRef.current
     if (sunRef.current) sunRef.current.rotation.y = time * 0.1
     if (glowRef.current) {
       const glowScale = 1.3 + Math.sin(time * 2) * 0.06
@@ -260,6 +268,7 @@ interface CategoryPlanetProps {
   onSelect: (category: SkillCategory) => void
   scale: number
   reduceMotion: boolean
+  timeScale: number
 }
 
 function CategoryPlanet({
@@ -270,19 +279,22 @@ function CategoryPlanet({
   onSelect,
   scale,
   reduceMotion,
+  timeScale,
 }: Readonly<CategoryPlanetProps>) {
   const groupRef = useRef<THREE.Group>(null)
   const planetRef = useRef<THREE.Mesh>(null)
   const angleRef = useRef(initialAngle)
+  const elapsedRef = useRef(0)
   const [hovered, setHovered] = useState(false)
 
-  useFrame((state, delta) => {
-    const time = state.clock.getElapsedTime()
+  useFrame((_, delta) => {
+    if (!reduceMotion) elapsedRef.current += delta * timeScale
+    const time = elapsedRef.current
 
     if (groupRef.current) {
-      if (!reduceMotion) angleRef.current += delta * orbitSpeed
+      if (!reduceMotion) angleRef.current += delta * orbitSpeed * timeScale
       const angle = angleRef.current
-      const wobble = reduceMotion ? 0 : Math.sin(time * 0.5 + angle) * 0.07
+      const wobble = Math.sin(time * 0.5 + angle) * 0.07
       groupRef.current.position.set(
         Math.cos(angle) * orbitRadius,
         wobble,
@@ -290,7 +302,7 @@ function CategoryPlanet({
       )
     }
 
-    if (planetRef.current && !reduceMotion) planetRef.current.rotation.y += 0.005
+    if (planetRef.current && !reduceMotion) planetRef.current.rotation.y += 0.005 * timeScale
   })
 
   const planetSize = 1.25 * scale
@@ -345,6 +357,7 @@ function CategoryPlanet({
           totalSkills={category.skills.length}
           scale={scale}
           reduceMotion={reduceMotion}
+          timeScale={timeScale}
         />
       ))}
     </group>
@@ -358,6 +371,7 @@ interface SkillMoonProps {
   totalSkills: number
   scale: number
   reduceMotion: boolean
+  timeScale: number
 }
 
 function SkillMoon({
@@ -367,8 +381,10 @@ function SkillMoon({
   totalSkills,
   scale,
   reduceMotion,
+  timeScale,
 }: Readonly<SkillMoonProps>) {
   const moonRef = useRef<THREE.Group>(null)
+  const elapsedRef = useRef(0)
   const initialAngle = (skillIndex / totalSkills) * Math.PI * 2
   const orbitRadius = parentSize + 0.48 + (skillIndex % 3) * 0.08
   const color = skill.color
@@ -383,14 +399,15 @@ function SkillMoon({
     roughness: 0.6,
   } satisfies ThreeElements['meshStandardMaterial']
 
-  useFrame((state) => {
+  useFrame((_, delta) => {
     if (!moonRef.current) return
 
-    const time = reduceMotion ? 0 : state.clock.getElapsedTime()
+    if (!reduceMotion) elapsedRef.current += delta * timeScale
+    const time = elapsedRef.current
     const angle = initialAngle + time * 1.05
     moonRef.current.position.set(
       Math.cos(angle) * orbitRadius,
-      reduceMotion ? 0 : Math.sin(time * 0.8 + initialAngle) * 0.04,
+      Math.sin(time * 0.8 + initialAngle) * 0.04,
       Math.sin(angle) * orbitRadius,
     )
   })
@@ -409,10 +426,12 @@ function FocusedPlanet({
   category,
   scale,
   reduceMotion,
+  timeScale,
 }: Readonly<{
   category: SkillCategory
   scale: number
   reduceMotion: boolean
+  timeScale: number
 }>) {
   const planetRef = useRef<THREE.Mesh>(null)
   const planetSize = 1.15 * scale
@@ -428,7 +447,7 @@ function FocusedPlanet({
   } satisfies ThreeElements['meshStandardMaterial']
 
   useFrame(() => {
-    if (planetRef.current && !reduceMotion) planetRef.current.rotation.y += 0.003
+    if (planetRef.current && !reduceMotion) planetRef.current.rotation.y += 0.005 * timeScale
   })
 
   return (
@@ -449,10 +468,11 @@ function FocusedPlanet({
               label={skill.name}
               color={color}
               orbitRadius={orbitRadius}
-              speed={0.9 - skillIndex * 0.1}
+              speed={1.05}
               initialAngle={(skillIndex / category.skills.length) * Math.PI * 2}
               size={0.24 * scale}
               reduceMotion={reduceMotion}
+              timeScale={timeScale}
             />
           </group>
         )
@@ -469,6 +489,7 @@ interface FocusedMoonProps {
   initialAngle: number
   size: number
   reduceMotion: boolean
+  timeScale: number
 }
 
 function FocusedMoon({
@@ -479,8 +500,10 @@ function FocusedMoon({
   initialAngle,
   size,
   reduceMotion,
+  timeScale,
 }: Readonly<FocusedMoonProps>) {
   const moonRef = useRef<THREE.Group>(null)
+  const elapsedRef = useRef(0)
   const moonGeometryProps = {
     args: [size, 16, 16],
   } satisfies ThreeElements['sphereGeometry']
@@ -500,14 +523,15 @@ function FocusedMoon({
     opacity: 0.1,
   } satisfies ThreeElements['meshBasicMaterial']
 
-  useFrame((state) => {
+  useFrame((_, delta) => {
     if (!moonRef.current) return
 
-    const time = reduceMotion ? 0 : state.clock.getElapsedTime()
+    if (!reduceMotion) elapsedRef.current += delta * timeScale
+    const time = elapsedRef.current
     const angle = initialAngle + time * speed
     moonRef.current.position.set(
       Math.cos(angle) * orbitRadius,
-      reduceMotion ? 0 : Math.sin(time * 0.8 + initialAngle) * 0.08,
+      Math.sin(time * 0.8 + initialAngle) * 0.04,
       Math.sin(angle) * orbitRadius,
     )
   })

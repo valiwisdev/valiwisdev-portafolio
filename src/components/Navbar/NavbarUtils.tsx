@@ -17,7 +17,7 @@ export function handleToggleMenu(
     setIsAnimating(false)
     setTimeout(() => {
       setIsMenuOpen(false)
-    }, 100)
+    }, 200)
   } else {
     setIsMenuOpen(true)
     setTimeout(() => setIsAnimating(true), 10)

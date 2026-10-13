@@ -1,18 +1,10 @@
-import { ExternalLink, ArrowLeft, ChevronRight } from 'lucide-react'
+import { ExternalLink, ArrowLeft, ChevronRight, Music2 } from 'lucide-react'
 import useSWR, { preload } from 'swr'
 import { fetcher } from '@/lib/fetcher'
 import { MusicLoader } from '../Loader'
 import type { TPlaylist } from '@/schemas/playlist.schema'
 import type { TTrack } from '@/schemas/track.schema'
 import { CircularGoldenButton, RoundedGoldenLink } from '../GoldenButtons'
-
-function formatDuration(durationMs: number | undefined | null) {
-  if (!durationMs || Number.isNaN(durationMs)) return '0:00'
-  const totalSeconds = Math.floor(durationMs / 1000)
-  const minutes = Math.floor(totalSeconds / 60)
-  const seconds = totalSeconds % 60
-  return `${minutes}:${seconds.toString().padStart(2, '0')}`
-}
 
 function useMyPlaylists() {
   return useSWR<TPlaylist[] | null>('/api/get-my-playlists', fetcher, {
@@ -54,7 +46,7 @@ export function PlaylistTab({
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center py-16">
+      <div className="flex h-full min-h-0 w-full items-center justify-center">
         <MusicLoader text="Loading playlists..." />
       </div>
     )
@@ -64,8 +56,8 @@ export function PlaylistTab({
     const selectedCover = selectedPlaylist.images?.[0]?.url
 
     return (
-      <div className="flex h-full min-h-0 w-full min-w-0 flex-col gap-2">
-        <div className="flex h-12 min-w-0 shrink-0 items-center gap-2">
+      <div className="flex h-full min-h-0 w-full min-w-0 flex-col gap-1.5 sm:gap-2">
+        <div className="flex h-10 min-w-0 shrink-0 items-center gap-2 sm:h-12">
           <CircularGoldenButton
             onClick={onBackToPlaylists}
             ariaLabel="Back to playlists"
@@ -76,12 +68,16 @@ export function PlaylistTab({
           </CircularGoldenButton>
           <div className="flex min-w-0 flex-1 items-center gap-2">
             <div
-              className={`h-12 w-12 shrink-0 rounded-lg bg-center bg-cover ${!selectedCover ? 'bg-gradient-to-br from-amber-400/20 to-amber-600/20' : ''}`}
+              className={`size-10 shrink-0 rounded-lg bg-center bg-cover sm:size-12 ${!selectedCover ? 'bg-gradient-to-br from-amber-400/20 to-amber-600/20' : ''}`}
               style={selectedCover ? { backgroundImage: `url(${selectedCover})` } : undefined}
             />
             <div className="flex h-full min-w-0 flex-1 flex-col justify-center">
-              <h3 className="truncate text-base font-semibold text-white">{selectedPlaylist.name}</h3>
-              <p className="text-sm text-slate-400">{selectedPlaylist.tracks.total} tracks</p>
+              <h3 className="truncate text-sm font-semibold text-white sm:text-base">
+                {selectedPlaylist.name}
+              </h3>
+              <p className="text-xs text-slate-400 sm:text-sm">
+                {selectedPlaylist.tracks.total} tracks
+              </p>
             </div>
           </div>
         </div>
@@ -91,7 +87,10 @@ export function PlaylistTab({
             <MusicLoader text="Loading tracks..." />
           </div>
         ) : tracksError ? (
-          <div className="flex min-h-0 flex-1 flex-col items-center justify-center text-center text-sm text-slate-400" role="status">
+          <div
+            className="flex min-h-0 flex-1 flex-col items-center justify-center text-center text-sm text-slate-400"
+            role="status"
+          >
             <p>Could not load tracks.</p>
             <button
               type="button"
@@ -102,42 +101,39 @@ export function PlaylistTab({
             </button>
           </div>
         ) : selectedTracks?.length ? (
-          <div className="min-h-0 min-w-0 flex-1 divide-y divide-white/10 overflow-y-auto px-1 custom-scrollbar">
-            {selectedTracks.map((track, index) => (
-              <div
-                key={track.id}
-                className="flex min-w-0 items-center gap-2 py-2"
-              >
-                <div className="flex-shrink-0 relative">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full border border-white/15 bg-white/5">
-                    <span className="text-sm font-semibold text-slate-300">
-                      {index + 1}
-                    </span>
+          <div className="min-h-0 min-w-0 flex-1 overflow-y-auto px-1 custom-scrollbar">
+            <div className="grid grid-cols-3 gap-2 py-2">
+              {selectedTracks.map((track) => {
+                const cover = track.album.images[0]?.url
+
+                return (
+                  <div key={track.id} className="min-w-0">
+                    <div
+                      role="img"
+                      aria-label={`${track.album.name} cover art`}
+                      className="grid aspect-square w-full place-items-center overflow-hidden rounded-lg border border-white/10 bg-gradient-to-br from-amber-400/25 via-violet-500/25 to-cyan-400/20 bg-cover bg-center"
+                      style={cover ? { backgroundImage: `url(${cover})` } : undefined}
+                    >
+                      {!cover && <Music2 aria-hidden="true" className="size-5 text-amber-300/80" />}
+                    </div>
+                    <p className="mt-1.5 truncate text-[0.6875rem] font-semibold leading-tight text-white">
+                      {track.name}
+                    </p>
+                    <p className="mt-0.5 truncate text-[0.625rem] leading-tight text-slate-400">
+                      {track.artists.map((artist) => artist.name).join(', ')}
+                    </p>
                   </div>
-                </div>
-
-                <div className="min-w-0 flex-1">
-                  <p className="truncate text-sm font-semibold text-white">
-                    {track.name}
-                  </p>
-                  <p className="text-xs text-slate-400/80 truncate">
-                    <span className="text-slate-400">{track.artists[0].name}</span>
-                    <span className="mx-1 text-slate-500">•</span>
-                    <span>{track.album.name}</span>
-                  </p>
-                </div>
-
-                <div className="shrink-0 pl-1 text-xs text-slate-400">
-                  {formatDuration(track.duration_ms)}
-                </div>
-              </div>
-            ))}
+                )
+              })}
+            </div>
           </div>
         ) : (
-          <p className="flex min-h-0 flex-1 items-center justify-center text-center text-sm text-slate-400">No tracks available.</p>
+          <p className="flex min-h-0 flex-1 items-center justify-center text-center text-sm text-slate-400">
+            No tracks available.
+          </p>
         )}
 
-        <div className="w-full shrink-0 border-t border-amber-400/20 pt-3">
+        <div className="w-full shrink-0 border-t border-amber-400/20 pt-2 sm:pt-3">
           <RoundedGoldenLink
             href={selectedPlaylist.external_urls.spotify}
             target="_blank"

@@ -11,7 +11,13 @@ import {
 } from 'react-icons/fa6'
 
 const socialLinks = [
-  { href: 'https://github.com/valiwisdev', label: 'GitHub', Icon: FaGithub, left: '50%', top: '0%' },
+  {
+    href: 'https://github.com/valiwisdev',
+    label: 'GitHub',
+    Icon: FaGithub,
+    left: '50%',
+    top: '0%',
+  },
   {
     href: 'https://www.linkedin.com/in/valiwisdev/',
     label: 'LinkedIn',
@@ -48,7 +54,7 @@ export default function SocialMediaIcons() {
 
   return (
     <div
-      className={`absolute -inset-[16%] transition-all duration-300 md:-inset-[12%] ${
+      className={`pointer-events-none absolute -inset-[20%] transition-all duration-300 sm:-inset-[18%] md:-inset-[15%] lg:-inset-[12%] ${
         showSocialIcons
           ? 'opacity-100 scale-100 animate-spin'
           : 'opacity-0 scale-95 pointer-events-none'
@@ -63,7 +69,7 @@ export default function SocialMediaIcons() {
           key={label}
           href={href}
           aria-label={label}
-          className="group absolute -translate-x-1/2 -translate-y-1/2 rounded-full bg-black/20 p-2 backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:bg-amber-400/20 md:p-3"
+          className="pointer-events-auto group absolute grid size-8 -translate-x-1/2 -translate-y-1/2 cursor-pointer place-items-center rounded-full border border-white/15 bg-indigo-950/80 text-white shadow-md shadow-black/25 backdrop-blur-sm transition-all duration-300 hover:scale-110 hover:border-amber-400 hover:bg-amber-400/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-300 sm:size-11 lg:size-12"
           style={{ left, top }}
         >
           <Icon className="social-icon" />
