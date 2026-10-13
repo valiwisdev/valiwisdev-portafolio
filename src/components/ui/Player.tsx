@@ -33,7 +33,7 @@ export function MusicPlayer({ onClose }: Readonly<{ onClose?: () => void }>) {
 
   return (
     <div
-      className="backdrop-blur-md flex h-[min(28rem,calc(100dvh-2rem))] w-full max-w-[20rem] min-h-0 flex-col overflow-hidden rounded-2xl border border-white/10 p-4 sm:h-[min(32rem,calc(100dvh-2rem))] sm:max-w-[20rem] sm:p-6"
+      className="flex h-[36rem] max-h-full min-h-0 w-full max-w-[22rem] flex-col overflow-hidden rounded-2xl border border-white/10 p-4 backdrop-blur-md sm:h-[32rem] sm:max-w-[20rem] sm:p-6"
       style={{
         background:
           'linear-gradient(135deg, rgba(15, 15, 64, 0.95) 0%, rgba(38, 11, 112, 0.95) 100%)',

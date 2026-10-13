@@ -37,7 +37,7 @@ export default function MusicPopupOverlay({ onClose, children }: Readonly<MusicP
 
   return createPortal(
     <div
-      className="fixed inset-0 z-[110] flex items-center justify-center bg-black/50 p-4 backdrop-blur-[2px]"
+      className="fixed inset-0 z-[110] flex items-center justify-center bg-black/50 px-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-[max(0.75rem,env(safe-area-inset-top))] backdrop-blur-[2px] sm:p-4"
       role="dialog"
       aria-label="Music player"
       aria-modal="true"

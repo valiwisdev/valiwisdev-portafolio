@@ -23,7 +23,7 @@ export function CurrentlyPlayingTab({
 
   if (!track) {
     return (
-      <div className="flex flex-col items-center justify-center py-12">
+      <div className="flex h-full min-h-0 w-full flex-col items-center justify-center px-4 py-8 text-center">
         <div className="relative mb-4">
           <div className="w-16 h-16 bg-gradient-to-br from-amber-400/20 to-amber-600/20 rounded-2xl flex items-center justify-center">
             <Music className="w-8 h-8 text-amber-400/60" />
@@ -31,7 +31,7 @@ export function CurrentlyPlayingTab({
           <div className="absolute -inset-1 bg-gradient-to-r from-amber-400/20 to-amber-600/20 rounded-2xl blur opacity-60 animate-pulse"></div>
         </div>
         <span className="text-sm text-amber-400/70 font-medium">Nothing playing right now</span>
-        <span className="text-xs text-slate-400/60 mt-1">
+        <span className="mt-1 text-xs text-slate-400/60">
           Start a song on Spotify to see it here
         </span>
       </div>

@@ -1,9 +1,9 @@
 'use client'
 
 import { Canvas } from '@react-three/fiber'
-import { AnimatePresence, motion, useDragControls, useReducedMotion } from 'framer-motion'
+import { AnimatePresence, motion, useDragControls } from 'framer-motion'
 import { ArrowLeft, LayoutGrid, Orbit, Pause, Play, X } from 'lucide-react'
-import { Suspense, useEffect, useRef, useState } from 'react'
+import { Suspense, useEffect, useRef, useState, useSyncExternalStore } from 'react'
 import { createPortal } from 'react-dom'
 
 import { skillCategories } from '@/data/skills'
@@ -12,6 +12,21 @@ import { SkillsScene } from './SkillsScene'
 import type { SkillCategory } from '@/schemas/skill.schema'
 
 const animationSpeeds = [0.25, 0.5, 1, 2] as const
+const reducedMotionQuery = '(prefers-reduced-motion: reduce)'
+
+function subscribeToReducedMotion(onStoreChange: () => void) {
+  const mediaQuery = window.matchMedia(reducedMotionQuery)
+  mediaQuery.addEventListener('change', onStoreChange)
+  return () => mediaQuery.removeEventListener('change', onStoreChange)
+}
+
+function getReducedMotionPreference() {
+  return window.matchMedia(reducedMotionQuery).matches
+}
+
+function getServerReducedMotionPreference() {
+  return false
+}
 
 interface SkillsExplorerProps {
   selectedCategory: SkillCategory | null
@@ -24,7 +39,11 @@ export function SkillsExplorer({
   onSelect,
   onBack,
 }: Readonly<SkillsExplorerProps>) {
-  const prefersReducedMotion = useReducedMotion() ?? false
+  const prefersReducedMotion = useSyncExternalStore(
+    subscribeToReducedMotion,
+    getReducedMotionPreference,
+    getServerReducedMotionPreference,
+  )
   const [motionOverride, setMotionOverride] = useState<boolean | null>(null)
   const [speedIndex, setSpeedIndex] = useState(2)
   const motionEnabled = motionOverride ?? !prefersReducedMotion
