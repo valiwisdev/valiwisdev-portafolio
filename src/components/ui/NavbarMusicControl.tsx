@@ -21,7 +21,7 @@ export default function NavbarMusicControl() {
       </button>
 
       {showMusicPopup && (
-        <MusicPopupOverlay onClose={() => setShowMusicPopup(false)}>
+        <MusicPopupOverlay>
           <MusicPlayer onClose={() => setShowMusicPopup(false)} />
         </MusicPopupOverlay>
       )}

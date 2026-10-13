@@ -1,18 +1,9 @@
 'use client'
 
-import { useEffect, useCallback } from 'react'
+import { useEffect } from 'react'
 import { createPortal } from 'react-dom'
 
-interface MusicPopupOverlayProps {
-  onClose: () => void
-  children: React.ReactNode
-}
-
-export default function MusicPopupOverlay({ onClose, children }: Readonly<MusicPopupOverlayProps>) {
-  const handleResize = useCallback(() => {
-    onClose()
-  }, [onClose])
-
+export default function MusicPopupOverlay({ children }: Readonly<{ children: React.ReactNode }>) {
   useEffect(() => {
     const body = document.body
     const previousOverflow = body.style.overflow
@@ -24,14 +15,11 @@ export default function MusicPopupOverlay({ onClose, children }: Readonly<MusicP
       body.style.paddingRight = `calc(${window.getComputedStyle(body).paddingRight} + ${scrollbarWidth}px)`
     }
 
-    window.addEventListener('resize', handleResize)
-
     return () => {
       body.style.overflow = previousOverflow
       body.style.paddingRight = previousPaddingRight
-      window.removeEventListener('resize', handleResize)
     }
-  }, [handleResize])
+  }, [])
 
   if (typeof document === 'undefined') return null
 
