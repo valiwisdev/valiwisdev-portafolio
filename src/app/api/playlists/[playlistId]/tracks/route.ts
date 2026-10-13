@@ -15,8 +15,7 @@ const cachedTracks = new Map<string, { data: TTrack[]; expiresAt: number }>()
 const pendingRequests = new Map<string, Promise<TTrack[]>>()
 
 async function fetchPlaylistTracks(playlistId: string): Promise<TTrack[]> {
-  let response = await spotify.getPlaylistItems(playlistId, 5)
-  if (response.status === 404) response = await spotify.getLegacyPlaylistTracks(playlistId, 5)
+  const response = await spotify.getPlaylistItems(playlistId, 5)
   if (!response.ok)
     throw new Error(`Spotify playlist request failed with status ${response.status}`)
 

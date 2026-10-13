@@ -35,15 +35,11 @@ export class SpotifyClient {
   }
 
   async getPlaylistItems(playlistId: string, limit = 5) {
-    return this.fetchWithAccessToken(this.getPlaylistEndpoint(playlistId, 'items', limit))
+    return this.fetchWithAccessToken(this.getPlaylistItemsEndpoint(playlistId, limit))
   }
 
-  async getLegacyPlaylistTracks(playlistId: string, limit = 5) {
-    return this.fetchWithAccessToken(this.getPlaylistEndpoint(playlistId, 'tracks', limit))
-  }
-
-  private getPlaylistEndpoint(playlistId: string, resource: 'items' | 'tracks', limit: number) {
-    return `https://api.spotify.com/v1/playlists/${encodeURIComponent(playlistId)}/${resource}?limit=${limit}`
+  private getPlaylistItemsEndpoint(playlistId: string, limit: number) {
+    return `https://api.spotify.com/v1/playlists/${encodeURIComponent(playlistId)}/items?limit=${limit}`
   }
 
   private async fetchWithAccessToken(endpoint: string) {

@@ -22,27 +22,31 @@ export default function Navbar() {
   }
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 50)
-    const frame = window.requestAnimationFrame(handleScroll)
-    window.addEventListener('scroll', handleScroll)
-    return () => {
-      window.cancelAnimationFrame(frame)
-      window.removeEventListener('scroll', handleScroll)
-    }
+    const scrollBoundary = document.querySelector('[data-navbar-scroll-boundary]')
+    if (!scrollBoundary) return
+
+    const observer = new IntersectionObserver(([entry]) => setIsScrolled(!entry.isIntersecting), {
+      threshold: 0,
+    })
+
+    observer.observe(scrollBoundary)
+    return () => observer.disconnect()
   }, [])
 
   useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 768 && isMenuOpen) {
+    const desktopQuery = window.matchMedia('(min-width: 768px)')
+    const closeMenuOnDesktop = (event: MediaQueryListEvent) => {
+      if (event.matches) {
         setIsMenuOpen(false)
         setIsAnimating(false)
       }
     }
-    window.addEventListener('resize', handleResize)
+
+    desktopQuery.addEventListener('change', closeMenuOnDesktop)
     return () => {
-      window.removeEventListener('resize', handleResize)
+      desktopQuery.removeEventListener('change', closeMenuOnDesktop)
     }
-  }, [isMenuOpen])
+  }, [])
 
   return (
     <nav

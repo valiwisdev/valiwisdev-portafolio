@@ -4,6 +4,9 @@ import { cloudflare } from '@cloudflare/vite-plugin'
 import { imagesOptimizer } from '@vinext/cloudflare/images/images-optimizer'
 
 export default defineConfig({
+  optimizeDeps: {
+    exclude: ['framer-motion', 'motion'],
+  },
   plugins: [
     vinext({
       images: { optimizer: imagesOptimizer() },

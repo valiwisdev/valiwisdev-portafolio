@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { introductionWords } from '@/constants/words'
+import { introductionWords } from '@/data/words'
 import { TypewriterEffectSmooth } from '../ui/TypewritterEffect'
 import ProfileAvatar from '../ui/ProfileAvatar'
 import ScrollButton from '../ui/ScrollButton'
@@ -25,6 +25,7 @@ export default function HomeSection() {
           <div className="mt-5 md:mt-7 lg:mt-12">
             <Link
               href="/cv"
+              prefetch={false}
               className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg border-2 border-amber-400 bg-transparent px-6 py-3 font-mono text-sm font-semibold text-amber-400 shadow-lg shadow-amber-400/10 transition-all hover:border-amber-300 hover:text-amber-300 hover:shadow-xl hover:shadow-amber-400/20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-300"
             >
               Download CV

@@ -6,6 +6,11 @@ import { SocialMediaIconsProvider } from '@/context/SocialMediaIconsContext'
 export default function PortfolioLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <SocialMediaIconsProvider>
+      <span
+        aria-hidden="true"
+        className="pointer-events-none absolute top-[50px] h-px w-px"
+        data-navbar-scroll-boundary
+      />
       <Navbar />
       <div
         className="fixed inset-0 -z-20 pointer-events-none print:hidden"

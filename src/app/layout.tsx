@@ -6,14 +6,12 @@ import '@/styles/globals.css'
 const sora = Sora({
   subsets: ['latin'],
   display: 'swap',
-  preload: false,
   variable: '--font-sora',
 })
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
   display: 'swap',
-  preload: false,
   variable: '--font-jetbrains-mono',
 })
 
