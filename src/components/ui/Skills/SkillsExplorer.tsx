@@ -31,7 +31,7 @@ export function SkillsExplorer({
   const animationSpeed = animationSpeeds[speedIndex]
 
   return (
-    <div className="relative min-h-[25rem] overflow-hidden rounded-xl border border-slate-700/30 bg-slate-900/30 shadow-2xl backdrop-blur-xl sm:min-h-[30rem] lg:min-h-[34rem]">
+    <div className="relative min-h-[25rem] overflow-hidden rounded-xl bg-slate-900/30 shadow-2xl backdrop-blur-xl sm:min-h-[30rem] lg:min-h-[34rem]">
       <div className="pointer-events-none absolute inset-x-0 top-0 z-10 h-24 bg-gradient-to-b from-slate-950/45 to-transparent" />
       <div className="absolute right-3 top-3 z-10 flex items-center gap-1.5 sm:right-4 sm:top-4">
         <CircularGoldenButton
@@ -225,9 +225,9 @@ function OrbitIndex({
             >
               <span
                 aria-hidden="true"
-                className={`grid size-8 place-items-center rounded-full border text-base transition group-hover:scale-105 group-hover:border-amber-400 group-hover:bg-transparent group-hover:text-amber-400 group-hover:shadow-md group-hover:shadow-amber-400/20 group-focus-visible:outline group-focus-visible:outline-2 group-focus-visible:outline-offset-2 group-focus-visible:outline-amber-400 sm:size-8 sm:text-sm ${
+                className={`grid size-8 place-items-center rounded-full border text-base transition group-hover:scale-105 group-hover:bg-amber-400/10 group-hover:text-amber-300 group-hover:shadow-md group-hover:shadow-amber-400/20 group-focus-visible:outline group-focus-visible:outline-2 group-focus-visible:outline-offset-2 group-focus-visible:outline-amber-400 sm:size-8 sm:text-sm ${
                   isSelected
-                    ? 'border-2 border-amber-400 bg-transparent text-amber-400 shadow-md shadow-amber-400/20'
+                    ? 'border-2 border-white/20 bg-amber-400/10 text-amber-300 shadow-md shadow-amber-400/20'
                     : 'border-white/15 bg-slate-950 text-white/75'
                 }`}
               >
@@ -308,7 +308,7 @@ function OrbitIndex({
                       aria-pressed={isSelected}
                       className={`flex min-h-16 items-center gap-3 rounded-lg border px-3 text-left transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-300 ${
                         isSelected
-                          ? 'border-amber-400/50 bg-amber-400/10 text-amber-300'
+                          ? 'border-white/10 bg-amber-400/10 text-amber-300'
                           : 'border-white/10 bg-white/[0.03] text-white/80 hover:border-white/25 hover:bg-white/[0.07]'
                       }`}
                     >

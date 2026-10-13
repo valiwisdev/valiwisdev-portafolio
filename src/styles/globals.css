@@ -87,6 +87,19 @@ section {
   @apply size-3.5 text-white transition-colors duration-300 group-hover:text-amber-400 sm:size-5 lg:size-6;
 }
 
+.contact-form-field:-webkit-autofill {
+  -webkit-text-fill-color: rgb(248 250 252);
+  -webkit-box-shadow: 0 0 0 1000px rgb(15 15 64 / 0.96) inset;
+  caret-color: rgb(248 250 252);
+  transition: background-color 99999s ease-in-out 0s;
+}
+
+.contact-form-field:autofill {
+  color: rgb(248 250 252);
+  box-shadow: 0 0 0 1000px rgb(15 15 64 / 0.96) inset;
+  caret-color: rgb(248 250 252);
+}
+
 @keyframes growWidth {
   to {
     width: 100%;

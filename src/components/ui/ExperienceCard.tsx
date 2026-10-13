@@ -13,7 +13,11 @@ interface ExperienceCardProps {
   myIndex: number
 }
 
-export function ExperienceCard({ experience, viewingIndex, myIndex }: Readonly<ExperienceCardProps>) {
+export function ExperienceCard({
+  experience,
+  viewingIndex,
+  myIndex,
+}: Readonly<ExperienceCardProps>) {
   const [expanded, setExpanded] = useState(false)
   const isExpanded = viewingIndex === myIndex && expanded
 
@@ -21,7 +25,7 @@ export function ExperienceCard({ experience, viewingIndex, myIndex }: Readonly<E
     <div className="group relative animate-fade-in">
       <div className="flex items-center justify-center">
         <div className="w-full max-w-4xl relative">
-          <div className="relative min-h-[22rem] rounded-2xl border border-slate-700/30 bg-slate-900/30 p-4 pt-4 backdrop-blur-xl transition-all duration-500 sm:min-h-[30rem] sm:p-5 md:p-6 lg:min-h-[34rem]">
+          <div className="relative min-h-[22rem] rounded-2xl bg-slate-900/30 p-4 pt-4 backdrop-blur-xl transition-all duration-500 sm:min-h-[30rem] sm:p-5 md:p-6 lg:min-h-[34rem]">
             <div className="absolute -top-px left-4 right-4 h-px bg-gradient-to-r from-transparent via-slate-400/30 to-transparent transition-all duration-500" />
 
             <div className="relative z-10 flex min-h-[20rem] flex-col justify-start sm:min-h-[27.5rem] md:min-h-[27rem] lg:min-h-[31rem]">

@@ -19,7 +19,7 @@ const panelMotion = {
 
 export function SkillsInfoPanel({ selectedCategory }: Readonly<SkillsInfoPanelProps>) {
   return (
-    <aside className="relative isolate h-full overflow-hidden rounded-xl border border-white/10 bg-gradient-to-br from-slate-900/75 via-indigo-950/65 to-violet-950/60 p-4 shadow-2xl backdrop-blur-xl sm:p-6 lg:p-7">
+    <aside className="relative isolate h-full overflow-hidden rounded-xl bg-gradient-to-br from-slate-900/75 via-indigo-950/65 to-violet-950/60 p-4 shadow-2xl backdrop-blur-xl sm:p-6 lg:p-7">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute -right-16 -top-20 size-56 rounded-full bg-cyan-300/[0.05] blur-3xl"
@@ -68,7 +68,7 @@ function SkillsOverview() {
       </svg>
 
       <div className="relative z-10 flex items-center gap-2">
-        <span className="grid size-8 place-items-center rounded-lg border border-amber-400/25 bg-amber-400/10 text-amber-300">
+        <span className="grid size-8 place-items-center rounded-lg border border-white/10 bg-amber-400/10 text-amber-300">
           <Orbit aria-hidden="true" className="size-4" />
         </span>
         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-amber-400">
@@ -151,8 +151,8 @@ function CategoryDetails({ category }: Readonly<{ category: SkillCategory }>) {
       <div className="relative z-10 flex items-center gap-3">
         <span
           aria-hidden="true"
-          className="grid size-10 place-items-center rounded-xl border bg-slate-950/60 text-lg"
-          style={{ borderColor: `${category.color}66`, color: category.color }}
+          className="grid size-10 place-items-center rounded-xl border border-white/10 bg-slate-950/60 text-lg"
+          style={{ color: category.color }}
         >
           {category.icon}
         </span>
@@ -182,9 +182,8 @@ function CategoryDetails({ category }: Readonly<{ category: SkillCategory }>) {
             Skill nodes
           </h4>
           <span
-            className="rounded-full border px-2 py-1 font-mono text-[0.625rem] uppercase tracking-wider"
+            className="rounded-full border border-white/10 px-2 py-1 font-mono text-[0.625rem] uppercase tracking-wider"
             style={{
-              borderColor: `${category.color}55`,
               backgroundColor: `${category.color}12`,
               color: category.color,
             }}
@@ -196,19 +195,11 @@ function CategoryDetails({ category }: Readonly<{ category: SkillCategory }>) {
           {category.skills.map((skill) => (
             <li
               key={skill.name}
-              className="inline-flex items-center gap-2 rounded-lg border bg-slate-950/45 px-2.5 py-2 text-sm font-medium text-white shadow-sm backdrop-blur-sm"
-              style={{
-                borderColor: `${skill.color}50`,
-              }}
+              className="inline-flex items-center gap-2 rounded-lg border border-white/10 bg-slate-950/45 px-2.5 py-2 text-sm font-medium text-white shadow-sm backdrop-blur-sm"
             >
               <span
                 aria-hidden="true"
-                className="grid size-3 shrink-0 place-items-center rounded-full border"
-                style={{ borderColor: `${skill.color}99` }}
-              />
-              <span
-                aria-hidden="true"
-                className="-ml-[18px] size-1.5 shrink-0 rounded-full"
+                className="size-1.5 shrink-0 rounded-full"
                 style={{ backgroundColor: skill.color }}
               />
               {skill.name}

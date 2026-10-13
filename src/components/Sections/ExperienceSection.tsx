@@ -32,9 +32,9 @@ function ExperienceSection() {
   return (
     <section
       id="experience"
-      className="flex items-start justify-center overflow-hidden px-3 pb-10 pt-6 sm:px-6 md:min-h-svh md:px-8 md:pb-12 md:pt-10 lg:pb-16 lg:pt-8 xl:pb-20 xl:pt-10"
+      className="flex items-start justify-center overflow-hidden pb-10 pt-6 md:min-h-svh md:pb-12 md:pt-10 lg:pb-16 lg:pt-8 xl:pb-20 xl:pt-10"
     >
-      <div className="mx-auto flex h-full w-full max-w-6xl flex-col">
+      <div className="mx-auto flex h-full w-full max-w-7xl flex-col px-4 sm:px-6">
         <div className="mb-8 flex-shrink-0 text-center md:mb-10 lg:mb-8 xl:mb-10">
           <h2 className="flex flex-col items-center justify-center gap-1 text-center leading-none md:gap-2">
             <span className="text-4xl font-bold text-white md:text-5xl lg:text-6xl">My</span>

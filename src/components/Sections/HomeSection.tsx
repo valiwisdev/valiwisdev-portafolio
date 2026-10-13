@@ -7,7 +7,7 @@ import ScrollButton from '../ui/ScrollButton'
 export default function HomeSection() {
   return (
     <section id="home" className="relative min-h-svh">
-      <div className="relative mx-auto flex min-h-svh w-full max-w-7xl flex-col items-center justify-center gap-5 px-5 pb-16 pt-24 sm:px-8 md:gap-8 md:px-10 md:pb-20 md:pt-28 lg:grid lg:grid-cols-2 lg:justify-items-center lg:gap-12 lg:px-8 lg:pb-24 lg:pt-28 xl:gap-16">
+      <div className="relative mx-auto flex min-h-svh w-full max-w-7xl flex-col items-center justify-center gap-5 px-4 pb-16 pt-24 sm:px-6 md:gap-8 md:pb-20 md:pt-28 lg:grid lg:grid-cols-2 lg:justify-items-center lg:gap-12 lg:pb-24 lg:pt-28 xl:gap-16">
         <div className="order-2 mt-2 text-center lg:order-1 lg:mt-0 lg:text-left">
           <div className="inline-block">
             <TypewriterEffectSmooth words={introductionWords} />

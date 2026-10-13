@@ -5,9 +5,9 @@ export default function ContactSection() {
   return (
     <section
       id="contact"
-      className="flex min-h-0 items-start justify-center px-4 pb-8 pt-6 sm:px-6 md:px-8 md:pb-12 md:pt-10 lg:min-h-0 lg:pb-28 lg:pt-8 xl:pb-36 xl:pt-10"
+      className="flex min-h-0 items-start justify-center pb-8 pt-6 md:pb-12 md:pt-10 lg:min-h-0 lg:pb-28 lg:pt-8 xl:pb-36 xl:pt-10"
     >
-      <div className="relative mx-auto w-full max-w-7xl">
+      <div className="relative mx-auto w-full max-w-7xl px-4 sm:px-6">
         <div className="grid grid-cols-1 gap-10 md:gap-12 lg:grid-cols-2 lg:items-center lg:gap-16">
           <div className="text-center lg:text-left">
             <h2 className="mb-6 text-4xl font-bold leading-none md:mb-8 md:text-5xl lg:text-6xl">
@@ -22,8 +22,8 @@ export default function ContactSection() {
             </p>
             <p className="mx-auto mb-2 max-w-md text-center text-sm text-white/90 sm:text-base lg:mx-0 lg:text-left">
               <Mail className="inline-block mr-2 text-amber-400" size={20} />
-              <a href="mailto:valiwisdev@outlook.com" className="text-white hover:underline">
-                valiwisdev@outlook.com
+              <a href="mailto:valeria.caro@outlook.com" className="text-white hover:underline">
+                valeria.caro@outlook.com
               </a>
             </p>
           </div>

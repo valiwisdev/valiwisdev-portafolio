@@ -11,14 +11,14 @@ export default function SkillsSection() {
   return (
     <section
       id="skills"
-      className="relative min-h-svh overflow-hidden px-3 pb-16 pt-6 sm:px-6 md:px-8 md:pb-20 md:pt-10 lg:pb-16 lg:pt-8 xl:pb-20 xl:pt-10"
+      className="relative min-h-svh overflow-hidden pb-16 pt-6 md:pb-20 md:pt-10 lg:pb-16 lg:pt-8 xl:pb-20 xl:pt-10"
     >
       <div
         aria-hidden="true"
         className="pointer-events-none absolute left-1/2 top-1/2 size-[34rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-amber-400/[0.04] blur-3xl"
       />
 
-      <div className="relative z-10 mx-auto w-full max-w-7xl">
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6">
         <header className="mx-auto mb-6 max-w-2xl text-center md:mb-10 lg:mb-12">
           <h2 className="text-3xl font-bold leading-none text-white sm:text-4xl md:text-5xl lg:text-6xl">
             My{' '}
